@@ -1,0 +1,12 @@
+[Unit]
+Description=High-performance, schema-free document-oriented database
+After=network.target
+Documentation=https://docs.mongodb.org/manual
+
+[Service]
+User=mongodb
+Group=mongodb
+ExecStart=/usr/bin/mongos --quiet --config /etc/mongos.conf
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+galaxy_info:
+  author: Paul Kehle <twitter.com/pgkehle>
+  description: Configure the components of a MongoDB Mesh Network
+  company: pgkehle
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - xenial
+  galaxy_tags:
+  - system
+dependencies: []

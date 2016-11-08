@@ -1,0 +1,2 @@
+*.yaml linguist-language=Ruby
+*.yml linguist-language=Ruby

@@ -1,0 +1,53 @@
+---
+
+# https://www.digitalocean.com/community/tutorials/how-to-implement-replication-sets-in-mongodb-on-an-ubuntu-vps
+# https://www.digitalocean.com/community/tutorials/how-to-create-a-sharded-cluster-in-mongodb-using-an-ubuntu-12-04-vps
+# https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
+
+
+  - name: Stop the daemon service
+    become: true
+    service: name=mongod state=stopped
+
+  - name: Stop the shard service, when using shard
+    become: true
+    service: name=mongos state=stopped
+    when: mongodb_type == "shard"
+
+  - name: Disable mongod service, when using shard
+    become: true
+    service: name=mongod enabled=no
+    when: mongodb_type == "shard"
+
+  - name: Copying daemon system file templates
+    become: true
+    template: src={{ item. src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
+    with_items:
+      - { src: ../templates/mongod.service.j2, dest: /lib/systemd/system/mongod.service }
+      - { src: ../templates/mongod.conf.j2, dest: /etc/mongod.conf }
+
+  - name: Copying shard system file templates, when using shard
+    become: true
+    template: src={{ item. src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
+    with_items:
+      - { src: ../templates/mongos.service.j2, dest: /lib/systemd/system/mongos.service }
+      - { src: ../templates/mongos.conf.j2, dest: /etc/mongos.conf }
+    when: mongodb_type == "shard"
+
+  - name: Copying /etc/hosts file template
+    become: true
+    template: src=../templates/hosts.j2 dest=/etc/hosts owner=root group=root mode="u=rw,g=r,o=r"
+
+  - name: Ensure data directory exists
+    file: path=/srv/mongodb state=directory owner=mongodb group=mongodb mode=755
+    become: yes
+
+  - name: Start the daemon service, when using daemon
+    become: true
+    service: name=mongod state=stopped
+    when: mongodb_type == "daemon"
+
+  - name: Start the shard service, when using shard
+    become: true
+    service: name=mongos state=stopped
+    when: mongodb_type == "shard"
