@@ -24,7 +24,7 @@ net:
   bindIp: 127.0.0.1,{{ ansible_host }}
 
 replication:
-  replSetName: {{ config_name }}
+  replSetName: {{ replica_set_name }}
 
 sharding:
   clusterRole: {{ cluster_role }}
@@ -33,7 +33,7 @@ sharding:
 
 #security:
 
-#operationProfiling:cluster_role
+#operationProfiling:
 
 ## Enterprise-Only Options:
 
