@@ -1,3 +1,5 @@
 ---
 
 # vars file for python
+
+  data_directory: /srv/mongodb

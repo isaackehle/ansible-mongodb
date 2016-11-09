@@ -1,4 +1,5 @@
 ---
 
+  replica_set_name: ""
   force: false
 

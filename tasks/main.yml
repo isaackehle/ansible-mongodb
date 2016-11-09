@@ -9,14 +9,24 @@
     become: true
     service: name=mongod state=stopped
 
-  - name: Stop the shard service, when using shard
+  - name: Stop the shard service, if applicable
     become: true
     service: name=mongos state=stopped
     when: mongodb_type == "shard"
 
-  - name: Disable mongod service, when using shard
+  - name: Enable mongod service, if applicable
+    become: true
+    service: name=mongod enabled=yes
+    when: mongodb_type == "daemon"
+
+  - name: Disable mongod service, if applicable
     become: true
     service: name=mongod enabled=no
+    when: mongodb_type == "shard"
+
+  - name: Enable mongos service, if applicable
+    become: true
+    service: name=mongos enabled=yes
     when: mongodb_type == "shard"
 
   - name: Copying daemon system file templates
@@ -26,7 +36,7 @@
       - { src: ../templates/mongod.service.j2, dest: /lib/systemd/system/mongod.service }
       - { src: ../templates/mongod.conf.j2, dest: /etc/mongod.conf }
 
-  - name: Copying shard system file templates, when using shard
+  - name: Copying shard templates, if needed
     become: true
     template: src={{ item. src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
     with_items:
@@ -38,16 +48,16 @@
     become: true
     template: src=../templates/hosts.j2 dest=/etc/hosts owner=root group=root mode="u=rw,g=r,o=r"
 
-  - name: Ensure data directory exists
-    file: path=/srv/mongodb state=directory owner=mongodb group=mongodb mode=755
-    become: yes
+#  - name: Ensure data directory exists
+#    file: path=/srv/mongodb state=directory owner=mongodb group=mongodb mode=755
+#    become: yes
 
-  - name: Start the daemon service, when using daemon
+  - name: Start the daemon service, if needed
     become: true
-    service: name=mongod state=stopped
+    service: name=mongod state=started
     when: mongodb_type == "daemon"
 
-  - name: Start the shard service, when using shard
+  - name: Start the shard service, if needed
     become: true
-    service: name=mongos state=stopped
+    service: name=mongos state=started
     when: mongodb_type == "shard"
