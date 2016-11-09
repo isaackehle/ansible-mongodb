@@ -1,5 +1,13 @@
 ---
 
-  replica_set_name: ""
-  force: false
+  force:              false
 
+  replica_set_name:   ""
+
+  sc_common_name:     ""
+  sc_deploy_path:     "/etc/ssl/{{ sc_common_name }}"
+  sc_csr_remote:      "{{ sc_deploy_path }}/{{ sc_common_name }}.csr"
+  sc_key_remote:      "{{ sc_deploy_path }}/{{ sc_common_name }}.key"
+  sc_cert_remote:     "{{ sc_deploy_path }}/{{ sc_common_name }}.cert.pem"
+  sc_chain_remote:    "{{ sc_deploy_path }}/{{ sc_common_name }}.chain.pem"
+  sc_interm_remote:   "{{ sc_deploy_path }}/{{ sc_common_name }}.intermediate.pem"
