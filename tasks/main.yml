@@ -44,10 +44,6 @@
       - { src: ../templates/mongos.conf.j2, dest: /etc/mongos.conf }
     when: mongodb_type == "shard"
 
-  - name: Copying /etc/hosts file template
-    become: true
-    template: src=../templates/hosts.j2 dest=/etc/hosts owner=root group=root mode="u=rw,g=r,o=r"
-
 #  - name: Ensure data directory exists
 #    file: path=/srv/mongodb state=directory owner=mongodb group=mongodb mode=755
 #    become: yes

@@ -14,11 +14,6 @@ Available on Ansible Galaxy: [pgkehle.mongodb-config-mesh](https://galaxy.ansibl
      - pgkehle.mongodb-config-mesh
 ```
 
-This will create a csr in:
-
-- `~/certs/<fqdn>.csr`
-
-
 ## License
 
 MIT
