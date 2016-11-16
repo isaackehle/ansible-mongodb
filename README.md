@@ -6,8 +6,6 @@ Available on Ansible Galaxy: [pgkehle.mongodb-config-mesh](https://galaxy.ansibl
 
 # Examples
 
-## Example to generate a Certificate Signing Request 
-
 ```YAML
  - hosts: all
    roles:
