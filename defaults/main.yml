@@ -1,5 +1,7 @@
 ---
 
+  do_config:          false
+  do_replica_set:     false
   force:              false
 
   replica_set_name:   ""

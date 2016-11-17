@@ -10,13 +10,13 @@ ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
 
 # Recommended limits for for mongod as specified in
 # http://docs.mongodb.org/manual/reference/ulimit/#recommended-settings
-LimitFSIZE=infinity # file size
-LimitCPU=infinity # cpu time
-LimitAS=infinity # virtual memory size
-LimitNOFILE=64000 # open files
-LimitNPROC=64000 # processes/threads
-TasksMax=infinity # total threads (user+kernel)
-TasksAccounting=false
+#LimitFSIZE=unlimited # file size
+#LimitCPU=unlimited # cpu time
+#LimitAS=unlimited # virtual memory size
+#LimitNOFILE=64000 # open files
+#LimitNPROC=64000 # processes/threads
+#TasksMax=unlimited # total threads (user+kernel)
+#TasksAccounting=false
 
 [Install]
 WantedBy=multi-user.target

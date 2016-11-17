@@ -1,0 +1,42 @@
+---
+
+  - name: Stop services
+    include: service-stop.yml
+
+  - name: Upload rsInit config file
+    become: true
+    template: src=../templates/mongod.conf.rsInit.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
+
+  - name: Save the replicaSetInit script
+    template: src=../templates/replicaSetInit.js.j2 dest=/tmp/replicaSetInit.js
+    when: replica_set_first == true
+
+  - name: Reset directories
+    include: directories-init.yml
+    no_log: true
+
+  - name: Start the appropriate services
+    include: service-start.yml
+
+  - name: Run the replicaSetInit script
+    shell: mongo < /tmp/replicaSetInit.js
+    when: replica_set_first == true
+    register: result
+#    until: result.stdout.find("all systems go") != -1
+    until: result.rc == 0
+    retries: 5
+    delay: 3
+
+#  - name: Kill the replicaSetInit script
+#    file: dest=/tmp/replicaSetInit.js
+#    when: replica_set_first == true
+#
+#  - name: Restore the mongodb configuration
+#    become: true
+#    template: src=../templates/mongod.conf.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
+#
+#  - name: Restart the daemon service
+#    become: true
+#    service: name=mongod state=restarted
+
+#sh.enableSharding

@@ -1,0 +1,15 @@
+---
+
+  - name: loop through rs_server_group to configure rs_servers set
+    set_fact:
+      rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].server_fqdn }}:27017']"
+    with_items:
+      - "{{ rs_server_group }}"
+
+#  - debug: msg="rs_servers = {{rs_servers}}"
+
+  - name: set config_db variable
+    set_fact:
+      config_db: "{{ config_name }}/{{ rs_servers|join(',') }}"
+
+  - debug: msg="config_db = {{config_db}}"

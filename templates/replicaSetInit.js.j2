@@ -1,0 +1,22 @@
+var config = {
+    _id: "{{ replica_set_name }}",
+    version: 1,
+    protocolVersion: 1,
+    {{ cluster_role }}: true,
+    members: [],
+    settings: {
+        chainingAllowed: true,
+        heartbeatIntervalMillis: 2000,
+        heartbeatTimeoutSecs: 10,
+        electionTimeoutMillis: 10000,
+        getLastErrorModes: {},
+        getLastErrorDefaults: {w: 1, wtimeout: 0}
+    }
+};
+
+{% for item in rs_server_group %}
+config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ item ].server_fqdn }}:27017'});
+{% endfor %}
+
+rs.initiate(config);
+
