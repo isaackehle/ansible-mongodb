@@ -1,16 +1,16 @@
 ---
 
-  - name: Set the rs group name from this server's rs name
-    set_fact:
-      rs_server_group_id: "{{ replica_set_name }}-servers"
-    when:
-      - replica_set_name is defined
-
-  - name: Set the rs group name from config server rs
+  - name: Set the rs group name from cfg_server_name
     set_fact:
       rs_server_group_id: "{{ cfg_server_name }}-servers"
     when:
       - cfg_server_name is defined
+
+  - name: Set the rs group name from replica_set_name
+    set_fact:
+      rs_server_group_id: "{{ replica_set_name }}-servers"
+    when:
+      - replica_set_name is defined
 
   - debug: msg="rs_server_group_id = {{rs_server_group_id}}"
 
@@ -30,4 +30,9 @@
     set_fact:
       config_db: "{{ cfg_server_name }}/{{ rs_servers|join(',') }}"
 
-  - debug: msg="config_db = {{config_db}}"
+#  - debug: msg="config_db = {{config_db}}"
+
+  - name: set mongodb_port
+    set_fact:
+      mongodb_port: 27019
+    when: cluster_role == "configsvr"

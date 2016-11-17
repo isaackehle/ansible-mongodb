@@ -71,11 +71,6 @@ Also need some helper definitions, included for each server
 ```
   # name of config server replica set name when configuring query servers
   - cfg_server_name: "app-cfg"  
- 
-  # name given to the replica set that this server is a part of
-  - shard_server_replica_sets:
-    - "app-shd00"
-    - "app-shd01"
 ```
 
 
@@ -110,3 +105,13 @@ MIT
 
 Paul Kehle  
 @pgkehle ([twitter](https://twitter.com/pgkehle), [github](https://github.com/pgkehle), [linkedin](https://www.linkedin.com/in/pgkehle))
+
+### References
+
+* https://www.digitalocean.com/community/tutorials/how-to-implement-replication-sets-in-mongodb-on-an-ubuntu-vps
+* https://www.digitalocean.com/community/tutorials/how-to-create-a-sharded-cluster-in-mongodb-using-an-ubuntu-12-04-vps
+* https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
+* https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set-with-keyfile-access-control/
+* https://docs.mongodb.com/v3.2/tutorial/add-shards-to-shard-cluster/
+* https://docs.mongodb.com/manual/reference/method/db.createUser/#db.createUser
+

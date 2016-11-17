@@ -1,17 +1,25 @@
 ---
 
-  - name: Save the replicaSetShards script template
+  - name: Save the replicaSetShards script
     template: src=../templates/replicaSetShards.js.j2 dest=/tmp/replicaSetShards.js
     when: first_member == true
 
-#  - name: Run the replicaSetShards script
-#    shell: mongo < /tmp/replicaSetShards.js
-#    when: first_member == true
-#    register: result
-#    until: result.rc == 0
-#    retries: 5
-#    delay: 3
+  - name: Run the replicaSetShards script
+    shell: >
+      mongo
+      --host {{ server_fqdn }}
+      --ssl
+      --sslPEMKeyFile {{ sc_chain_remote }}
+      --sslCAFile {{ sc_interm_remote }}
+      < /tmp/replicaSetShards.js
+
+    when: first_member == true
+    register: result
+    until: result.rc == 0
+    retries: 5
+    delay: 3
 
 #  - name: Kill the replicaSetShards script
 #    file: dest=/tmp/replicaSetShards.js
 #    when: first_member == true
+

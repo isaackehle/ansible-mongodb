@@ -1,5 +1,8 @@
-{% for item in shard_server_replica_sets %}
-sh.addShard( "<replSetName>/s1-mongo1.example.net:27017")
-//config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ item ].server_fqdn }}:27017'});
-{% endfor %}
+use {{ auth_db }}
+db.auth("{{ admin_user }}", "{{ admin_password }}" )
 
+{% for hn in groups['app-shard-servers']  %}
+{% if hostvars[ hn ].first_member == true %}
+sh.addShard( "{{ hostvars[ hn ].replica_set_name}}/{{hostvars[ hn ].server_fqdn}}:{{ mongodb_port }}")
+{% endif %}
+{% endfor %}

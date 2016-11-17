@@ -6,6 +6,8 @@
   force:                  false
 
   admin_password:         ""
+  admin_user:             "admin"
+  auth_db:                "admin"
 
   sc_common_name:         ""
   sc_deploy_path:         "/etc/ssl/{{ sc_common_name }}"

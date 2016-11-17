@@ -11,7 +11,7 @@
     file: path=/srv/mongodb state=absent
     become: true
 
-  - name: Delete mounted directory, if applicable
+  - name: Delete mounted directory
 #    shell: rm -rf /mnt/data/mongodb/
     file: path=/mnt/data/mongodb/ state=absent
     become: true
@@ -27,7 +27,7 @@
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir == true
     become: true
 
-  - name: Create link, if applicable
+  - name: Create link, if needed
     file: src=/mnt/data/mongodb dest=/srv/mongodb state=link mode=755 owner=mongodb group=mongodb
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir|bool == true
     become: true

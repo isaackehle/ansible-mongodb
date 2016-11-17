@@ -15,15 +15,15 @@ var config = {
 
 {% if cluster_role == 'configsvr' %}
 // Set this to specify the replica set is a config server
-config.cluster_role = true;
+config.configsvr = true;
 {% endif %}
 
 {% if cluster_role == 'shardsvr' %}
 // Set this to specify the replica set is a config server
 {% endif %}
 
-{% for item in rs_server_group %}
-config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ item ].server_fqdn }}:27017'});
+{% for hn in rs_server_group %}
+config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ hn ].server_fqdn }}:{{ mongodb_port }}'});
 {% endfor %}
 
 rs.initiate(config);
@@ -34,8 +34,12 @@ db.getSiblingDB("admin").createUser({
     user: "admin",
     pwd: "{{ admin_password }}",
     roles: [
-        { role: "userAdminAnyDatabase", db: "admin" },
-        { role: "clusterAdmin", "db" : "admin" }
+        { role: "root", db: "admin"},
+        { role: "dbAdminAnyDatabase", db: "admin"},
+        { role: "userAdminAnyDatabase", db: "admin"},
+        { role: "readWriteAnyDatabase", db: "admin"},
+        { role: "clusterAdmin", db: "admin"},
+        { role: "clusterMonitor", db: "admin"}
     ]
 })
 {% endif %}

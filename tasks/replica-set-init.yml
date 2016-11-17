@@ -7,28 +7,49 @@
     become: true
     template: src=../templates/mongod.conf.rsInit.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
 
-  - name: Save the replicaSetInit script template
-    template: src=../templates/replicaSetInit.js.j2 dest=/tmp/replicaSetInit.js
-    when: first_member == true
-
   - name: Reset directories
     include: directories-init.yml
     no_log: true
 
+#  - name: Start the daemon service
+#    become: true
+#    service: name=mongod state=started
   - name: Start the appropriate services
     include: service-start.yml
+
+# TODO: Add Delay
+
+  - name: Save the replicaSetInit template
+    template: src=../templates/replicaSetInit.js.j2 dest=/tmp/replicaSetInit.js
+    when: first_member == true
 
   - name: Run the replicaSetInit script
     shell: mongo < /tmp/replicaSetInit.js
     when: first_member == true
-    register: result
-    until: result.rc == 0
+    register: res_rsi
+    until: res_rsi.rc == 0
     retries: 5
-    delay: 3
+    delay: 10
+
+#  - name: Save the userAdminInit template
+#    template: src=../templates/userAdminInit.js.j2 dest=/tmp/userAdminInit.js
+#    when: first_member == true and not admin_password == ""
+#
+#  - name: Run the userAdminInit script
+#    shell: mongo < /tmp/userAdminInit.js
+#    when: first_member == true and not admin_password == ""
+#    register: res_uai
+#    until: res_uai.rc == 0
+#    retries: 5
+#    delay: 3
 
 #  - name: Kill the replicaSetInit script
 #    file: dest=/tmp/replicaSetInit.js
 #    when: first_member == true
+
+  - name: Stop the daemon service
+    become: true
+    service: name=mongod state=stopped
 
   - name: Restore the mongodb configuration
     become: true
@@ -36,6 +57,7 @@
 
   - name: Restart the daemon service
     become: true
-    service: name=mongod state=restarted
+    service: name=mongod state=started
+
 
 #sh.enableSharding

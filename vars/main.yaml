@@ -4,6 +4,8 @@
 
   data_directory: /srv/mongodb
 
-  rs_servers: []
-  rs_server_group: []
-  config_db: ""
+  rs_servers:       []
+  rs_server_group:  []
+  config_db:        ""
+
+  mongodb_port:     27017
