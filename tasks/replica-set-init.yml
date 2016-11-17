@@ -27,16 +27,16 @@
     retries: 5
     delay: 3
 
-#  - name: Kill the replicaSetInit script
-#    file: dest=/tmp/replicaSetInit.js
-#    when: replica_set_first == true
-#
-#  - name: Restore the mongodb configuration
-#    become: true
-#    template: src=../templates/mongod.conf.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
-#
-#  - name: Restart the daemon service
-#    become: true
-#    service: name=mongod state=restarted
+  - name: Kill the replicaSetInit script
+    file: dest=/tmp/replicaSetInit.js
+    when: replica_set_first == true
+
+  - name: Restore the mongodb configuration
+    become: true
+    template: src=../templates/mongod.conf.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
+
+  - name: Restart the daemon service
+    become: true
+    service: name=mongod state=restarted
 
 #sh.enableSharding

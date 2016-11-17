@@ -3,6 +3,7 @@
 # https://www.digitalocean.com/community/tutorials/how-to-implement-replication-sets-in-mongodb-on-an-ubuntu-vps
 # https://www.digitalocean.com/community/tutorials/how-to-create-a-sharded-cluster-in-mongodb-using-an-ubuntu-12-04-vps
 # https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
+# https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set-with-keyfile-access-control/
 
   - include: prep-vars.yml
 

@@ -5,6 +5,7 @@
   force:              false
 
   replica_set_name:   ""
+  admin_password:     "changemeorsuffertheconsequences"
 
   sc_common_name:     ""
   sc_deploy_path:     "/etc/ssl/{{ sc_common_name }}"
