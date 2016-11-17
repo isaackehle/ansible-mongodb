@@ -3,11 +3,24 @@
   #
   # Disable any mongo services
   #
+
+  - stat: path=/lib/systemd/system/mongod.service
+    register: stat_d
+
   - name: Stop the daemon service
     become: true
     service: name=mongod state=stopped
+    when:
+      - stat_d.stat.exists
+#      - mongodb_type == "daemon"
+
+#  - stat: path=/etc/mongos.conf
+  - stat: path=/lib/systemd/system/mongos.service
+    register: stat_s
 
   - name: Stop the shard service, if applicable
     become: true
     service: name=mongos state=stopped
-    when: mongodb_type == "shard"
+    when:
+      - stat_s.stat.exists
+      - mongodb_type == "shard"

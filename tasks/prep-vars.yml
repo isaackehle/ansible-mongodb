@@ -1,6 +1,24 @@
 ---
 
-  - name: loop through rs_server_group to configure rs_servers set
+  - name: Set the rs group name from this server's rs name
+    set_fact:
+      rs_server_group_id: "{{ replica_set_name }}-servers"
+    when:
+      - replica_set_name is defined
+
+  - name: Set the rs group name from config server rs
+    set_fact:
+      rs_server_group_id: "{{ cfg_server_name }}-servers"
+    when:
+      - cfg_server_name is defined
+
+  - debug: msg="rs_server_group_id = {{rs_server_group_id}}"
+
+  - name: Set the replicaSet group
+    set_fact:
+      rs_server_group: "{{ groups[rs_server_group_id] }}"
+
+  - name: loop through rs_server_group
     set_fact:
       rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].server_fqdn }}:27017']"
     with_items:
@@ -10,6 +28,6 @@
 
   - name: set config_db variable
     set_fact:
-      config_db: "{{ config_name }}/{{ rs_servers|join(',') }}"
+      config_db: "{{ cfg_server_name }}/{{ rs_servers|join(',') }}"
 
   - debug: msg="config_db = {{config_db}}"

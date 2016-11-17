@@ -3,15 +3,20 @@
   - name: Stop services
     include: service-stop.yml
 
-  - name: Enable mongod service, if applicable
-    become: true
-    service: name=mongod enabled=yes
-    when: mongodb_type == "daemon"
-
-  - name: Disable mongod service, if applicable
-    become: true
-    service: name=mongod enabled=no
-    when: mongodb_type == "shard"
+#  - name: Enable mongod service, if applicable
+#    become: true
+#    service: name=mongod enabled=yes
+#    when:
+#      - stat_d.stat.exists
+#      - mongodb_type == "daemon"
+#
+##  - name: Disable mongod service, if applicable
+##    become: true
+##    service: name=mongod enabled=no
+##    when:
+##      - stat_d.stat.exists
+##      - mongodb_type == "shard"
+##
 
   - name: Enable mongos service, if applicable
     become: true
@@ -20,14 +25,23 @@
 
   - name: Copying daemon system file templates
     become: true
-    template: src={{ item. src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
+    template: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
     with_items:
       - { src: ../templates/mongod.service.j2, dest: /lib/systemd/system/mongod.service }
       - { src: ../templates/mongod.conf.j2, dest: /etc/mongod.conf }
+    when: mongodb_type == "daemon"
+
+  - name: Remove daemon system files when shard server type
+    become: true
+    file: dest={{ item.dest }} state=absent
+    with_items:
+      - { dest: /lib/systemd/system/mongod.service }
+      - { dest: /etc/mongod.conf }
+    when: mongodb_type == "shard"
 
   - name: Copying shard templates, if needed
     become: true
-    template: src={{ item. src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
+    template: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
     with_items:
       - { src: ../templates/mongos.service.j2, dest: /lib/systemd/system/mongos.service }
       - { src: ../templates/mongos.conf.j2, dest: /etc/mongos.conf }
@@ -35,9 +49,7 @@
 
   - name: Truncate logs
     become: true
-    file: path={{ item.path }} state=absent  # state=empty
-    when: >
-      ( files is defined and not files.skipped|bool == true )
+    file: path={{ item }} state=absent  # state=empty
     with_items:
       - /var/log/mongodb/mongod.log
       - /var/log/mongodb/mongos.log

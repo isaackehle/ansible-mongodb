@@ -4,10 +4,6 @@
 
   data_directory: /srv/mongodb
 
-  server_group_id: "{{ replica_set_name }}-servers"
-
-  rs_server_group: "{{ groups[server_group_id] }}"
-
   rs_servers: []
-
-
+  rs_server_group: []
+  config_db: ""

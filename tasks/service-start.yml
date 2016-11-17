@@ -1,5 +1,7 @@
 ---
 
+  - debug: "msg='mongodb_type: {{mongodb_type}}'"
+
   - name: Start the daemon service, if needed
     become: true
     service: name=mongod state=started

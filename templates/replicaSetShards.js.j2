@@ -1,0 +1,5 @@
+{% for item in shard_server_replica_sets %}
+sh.addShard( "<replSetName>/s1-mongo1.example.net:27017")
+//config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ item ].server_fqdn }}:27017'});
+{% endfor %}
+

@@ -3,13 +3,13 @@
   - name: Stop services
     include: service-stop.yml
 
-  - name: Upload rsInit config file
+  - name: Upload replicaSetInit config file
     become: true
     template: src=../templates/mongod.conf.rsInit.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
 
-  - name: Save the replicaSetInit script
+  - name: Save the replicaSetInit script template
     template: src=../templates/replicaSetInit.js.j2 dest=/tmp/replicaSetInit.js
-    when: replica_set_first == true
+    when: first_member == true
 
   - name: Reset directories
     include: directories-init.yml
@@ -20,16 +20,15 @@
 
   - name: Run the replicaSetInit script
     shell: mongo < /tmp/replicaSetInit.js
-    when: replica_set_first == true
+    when: first_member == true
     register: result
-#    until: result.stdout.find("all systems go") != -1
     until: result.rc == 0
     retries: 5
     delay: 3
 
-  - name: Kill the replicaSetInit script
-    file: dest=/tmp/replicaSetInit.js
-    when: replica_set_first == true
+#  - name: Kill the replicaSetInit script
+#    file: dest=/tmp/replicaSetInit.js
+#    when: first_member == true
 
   - name: Restore the mongodb configuration
     become: true

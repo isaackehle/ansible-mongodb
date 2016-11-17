@@ -20,8 +20,10 @@ systemLog:
 
 #replication:
 
+{% if config_db %}
 sharding:
   configDB: {{ config_db }}
+{% endif %}
 
 #processManagement:
 
@@ -31,9 +33,9 @@ security:
 # network interfaces
 net:
   port: 27017
-  #bindIp: 127.0.0.1,{{ ansible_host }}
+  bindIp: 127.0.0.1,{{ ansible_host }}
   ssl:
-    mode: allowSSL # requireSSL
+    mode: requireSSL
     PEMKeyFile: {{ sc_chain_remote }}
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}

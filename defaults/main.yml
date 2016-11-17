@@ -1,16 +1,16 @@
 ---
 
-  do_config:          false
-  do_replica_set:     false
-  force:              false
+  do_config:              false
+  do_replica_set_init:    false
+  do_replica_set_shards:  false
+  force:                  false
 
-  replica_set_name:   ""
-  admin_password:     "changemeorsuffertheconsequences"
+  admin_password:         ""
 
-  sc_common_name:     ""
-  sc_deploy_path:     "/etc/ssl/{{ sc_common_name }}"
-  sc_csr_remote:      "{{ sc_deploy_path }}/{{ sc_common_name }}.csr"
-  sc_key_remote:      "{{ sc_deploy_path }}/{{ sc_common_name }}.key"
-  sc_cert_remote:     "{{ sc_deploy_path }}/{{ sc_common_name }}.cert.pem"
-  sc_chain_remote:    "{{ sc_deploy_path }}/{{ sc_common_name }}.chain.pem"
-  sc_interm_remote:   "{{ sc_deploy_path }}/{{ sc_common_name }}.intermediate.pem"
+  sc_common_name:         ""
+  sc_deploy_path:         "/etc/ssl/{{ sc_common_name }}"
+  sc_csr_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.csr"
+  sc_key_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.key"
+  sc_cert_remote:         "{{ sc_deploy_path }}/{{ sc_common_name }}.cert.pem"
+  sc_chain_remote:        "{{ sc_deploy_path }}/{{ sc_common_name }}.chain.pem"
+  sc_interm_remote:       "{{ sc_deploy_path }}/{{ sc_common_name }}.intermediate.pem"
