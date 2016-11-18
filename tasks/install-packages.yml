@@ -7,8 +7,6 @@
   - set_fact:
       lsb_release: "{{ lsb_release_out.stdout }}"
 
-#  - debug: "msg='lsb_release: {{ lsb_release }}'"
-
   - name: Add APT Key
     command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
     become: true
