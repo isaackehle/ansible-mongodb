@@ -114,4 +114,16 @@ Paul Kehle
 * https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set-with-keyfile-access-control/
 * https://docs.mongodb.com/v3.2/tutorial/add-shards-to-shard-cluster/
 * https://docs.mongodb.com/manual/reference/method/db.createUser/#db.createUser
+* http://codingmiles.com/mongodb-sharded-cluster-deployment/
+
+
+* https://docs.mongodb.com/manual/core/security-x.509/
+* https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/
+* https://docs.mongodb.com/manual/core/authorization/
+* https://docs.mongodb.com/manual/core/security-internal-authentication/
+* https://docs.mongodb.com/manual/tutorial/configure-x509-member-authentication/*x509-member-certificate
+* http://dba.stackexchange.com/questions/80859/issues-with-self-signed-certificates-ssl-and-mongodb
+* https://blog.cloudandheat.com/index.php/en/2015/04/19/deploy-a-mongodb-3-0-replica-set-with-x-509-authentication-and-self-signed-certificates/
+* http://dba.stackexchange.com/questions/80859/issues-with-self-signed-certificates-ssl-and-mongodb
+* http://demarcsek92.blogspot.com/2014/05/mongodb-ssl-setup.html
 

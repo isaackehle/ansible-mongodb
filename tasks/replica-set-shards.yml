@@ -8,6 +8,7 @@
     shell: >
       mongo
       --host {{ server_fqdn }}
+      --port {{ rs_port }}
       --ssl
       --sslPEMKeyFile {{ sc_chain_remote }}
       --sslCAFile {{ sc_interm_remote }}

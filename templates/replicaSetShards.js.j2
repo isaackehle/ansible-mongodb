@@ -1,8 +1,10 @@
-use {{ auth_db }}
-db.auth("{{ admin_user }}", "{{ admin_password }}" )
+//use {{ auth_db }}
+//db.auth("{{ admin_user }}", "{{ admin_password }}" )
+
+db.getSiblingDB("admin").auth("{{ admin_user }}", "{{ admin_password }}" )
 
 {% for hn in groups['app-shard-servers']  %}
 {% if hostvars[ hn ].first_member == true %}
-sh.addShard( "{{ hostvars[ hn ].replica_set_name}}/{{hostvars[ hn ].server_fqdn}}:{{ mongodb_port }}")
+sh.addShard( "{{ hostvars[ hn ].replica_set_name}}/{{hostvars[ hn ].server_fqdn}}:{{ ports.shardsvr }}")
 {% endif %}
 {% endfor %}

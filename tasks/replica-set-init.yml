@@ -11,41 +11,30 @@
     include: directories-init.yml
     no_log: true
 
-#  - name: Start the daemon service
-#    become: true
-#    service: name=mongod state=started
   - name: Start the appropriate services
     include: service-start.yml
 
-# TODO: Add Delay
+  - pause: seconds=5
 
   - name: Save the replicaSetInit template
     template: src=../templates/replicaSetInit.js.j2 dest=/tmp/replicaSetInit.js
     when: first_member == true
 
   - name: Run the replicaSetInit script
-    shell: mongo < /tmp/replicaSetInit.js
+    shell: >
+      mongo
+      --port {{ rs_port }}
+      < /tmp/replicaSetInit.js
+
     when: first_member == true
     register: res_rsi
     until: res_rsi.rc == 0
     retries: 5
     delay: 10
 
-#  - name: Save the userAdminInit template
-#    template: src=../templates/userAdminInit.js.j2 dest=/tmp/userAdminInit.js
-#    when: first_member == true and not admin_password == ""
-#
-#  - name: Run the userAdminInit script
-#    shell: mongo < /tmp/userAdminInit.js
-#    when: first_member == true and not admin_password == ""
-#    register: res_uai
-#    until: res_uai.rc == 0
-#    retries: 5
-#    delay: 3
-
-#  - name: Kill the replicaSetInit script
-#    file: dest=/tmp/replicaSetInit.js
-#    when: first_member == true
+  - name: Kill the replicaSetInit script
+    file: dest=/tmp/replicaSetInit.js
+    when: first_member == true
 
   - name: Stop the daemon service
     become: true
@@ -58,6 +47,3 @@
   - name: Restart the daemon service
     become: true
     service: name=mongod state=started
-
-
-#sh.enableSharding

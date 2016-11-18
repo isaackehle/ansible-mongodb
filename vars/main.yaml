@@ -8,4 +8,7 @@
   rs_server_group:  []
   config_db:        ""
 
-  mongodb_port:     27017
+  ports:
+    shardsvr:       27017
+    configsvr:      27019
+    querysvr:       27017

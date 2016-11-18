@@ -58,6 +58,9 @@
     include: directories-init.yml
     no_log: true
 
+  - name: Reload the systemd daemon
+    command: systemctl daemon-reload
+    become: true
+
   - name: Start the appropriate services
     include: service-start.yml
-

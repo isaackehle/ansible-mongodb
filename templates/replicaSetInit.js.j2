@@ -23,7 +23,7 @@ config.configsvr = true;
 {% endif %}
 
 {% for hn in rs_server_group %}
-config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ hn ].server_fqdn }}:{{ mongodb_port }}'});
+config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ hn ].server_fqdn }}:{{ rs_port }}'});
 {% endfor %}
 
 rs.initiate(config);

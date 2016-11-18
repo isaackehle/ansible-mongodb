@@ -20,7 +20,7 @@
 
   - name: loop through rs_server_group
     set_fact:
-      rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].server_fqdn }}:27017']"
+      rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].server_fqdn }}:{{ ports.configsvr }}']"
     with_items:
       - "{{ rs_server_group }}"
 
@@ -32,7 +32,10 @@
 
 #  - debug: msg="config_db = {{config_db}}"
 
-  - name: set mongodb_port
+  - debug: msg="ports = {{ ports }}"
+
+  - name: set rs_port
     set_fact:
-      mongodb_port: 27019
-    when: cluster_role == "configsvr"
+      rs_port: "{{ ports[cluster_role] }}"
+
+  - debug: msg="rs_port = {{ rs_port }}"
