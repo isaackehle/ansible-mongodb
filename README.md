@@ -1,8 +1,8 @@
-# Ansible: mongodb-config-cluster
+# Ansible: mongodb-config
 
 Configure the components of a MongoDB Cluster
 
-Available on Ansible Galaxy: [pgkehle.mongodb-config-cluster](https://galaxy.ansible.com/pgkehle/mongodb-config-cluster)
+Available on Ansible Galaxy: [pgkehle.mongodb-config](https://galaxy.ansible.com/pgkehle/mongodb-config)
 
 ## Variables
 
@@ -73,8 +73,6 @@ Also need some helper definitions, included for each server
   - cfg_server_name: "app-cfg"  
 ```
 
-
-
 # Examples
 
 ```YAML
@@ -94,7 +92,7 @@ Also need some helper definitions, included for each server
 
  
     roles:
-      - pgkehle.mongodb-config-cluster
+      - pgkehle.mongodb-config
 ```
 
 ## License
