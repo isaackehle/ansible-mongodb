@@ -21,3 +21,14 @@
       state: present
       update_cache: yes
     become: true
+
+  - name: Autoremove unused
+    become: true
+    raw: sudo apt -y autoremove
+#      apt:
+#        autoremove: yes
+
+  - name: Dist Upgrade
+    become: true
+    apt:
+      upgrade: dist
