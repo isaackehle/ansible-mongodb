@@ -2,11 +2,18 @@
 
   - include: prep-vars.yml
 
+  - include: install-packages.yml
+    when:
+      - do_pkg_install|bool == true
+
   - include: config-save.yml
-    when: do_config|bool == true
+    when:
+      - do_config|bool == true
 
   - include: replica-set-init.yml
-    when: do_replica_set_init|bool == true
+    when:
+      - do_replica_set_init|bool == true
 
   - include: replica-set-shards.yml
-    when: do_replica_set_shards|bool == true
+    when:
+      - do_replica_set_shards|bool == true

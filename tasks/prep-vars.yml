@@ -24,15 +24,9 @@
     with_items:
       - "{{ rs_server_group }}"
 
-#  - debug: msg="rs_servers = {{rs_servers}}"
-
   - name: set config_db variable
     set_fact:
       config_db: "{{ cfg_server_name }}/{{ rs_servers|join(',') }}"
-
-#  - debug: msg="config_db = {{config_db}}"
-
-  - debug: msg="ports = {{ ports }}"
 
   - name: set rs_port
     set_fact:

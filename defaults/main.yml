@@ -1,5 +1,6 @@
 ---
 
+  do_pkg_install:         false
   do_config:              false
   do_replica_set_init:    false
   do_replica_set_shards:  false
