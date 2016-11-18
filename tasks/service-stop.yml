@@ -18,7 +18,7 @@
   - stat: path=/lib/systemd/system/mongos.service
     register: stat_s
 
-  - name: Stop the shard service, if needed
+  - name: Stop the shard service
     become: true
     service: name=mongos state=stopped
     when:

@@ -3,7 +3,8 @@
 #  - stat: path=/srv/mongodb
 #    register: stat_db
 
-  - stat: path=/mnt/data
+  - name: Status of data directory
+    stat: path=/mnt/data
     register: stat_mnt
 
   - name: Delete srv directory
