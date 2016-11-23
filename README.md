@@ -73,7 +73,15 @@ Also need some helper definitions, included for each server
   - cfg_server_name: "app-cfg"  
 ```
 
-# Examples
+## Tags
+
+    pkg_install:    Install mongo packages
+    config:         Basic initialization.  Stop Services, push service/config files, clear directories and logs, restart services
+    rs_init:        Initialize the replica set configuration
+    rs_shards:      Add shard servers (replica sets) to the cluster
+
+
+## Examples
 
 ```YAML
 
@@ -81,18 +89,12 @@ Also need some helper definitions, included for each server
  
     # see defaults/main.yml
     vars: 
-        # Basic initialization.  Stop Services, push service/config files, clear directories and logs, restart services
-        do_config:              true    
-
-        # Initialize the replica set configuration
-        do_replica_set_init:    false
-
-        # Add shard servers (replica sets) to the cluster
-        do_replica_set_shards:  false
 
  
     roles:
-      - pgkehle.mongodb-config
+      - { name: pgkehle.mongodb-config, tags: ['config'] }
+      - { name: pgkehle.mongodb-config, tags: ['rs_init'] }
+      - { name: pgkehle.mongodb-config, tags: ['rs_shards'] }
 ```
 
 ## License

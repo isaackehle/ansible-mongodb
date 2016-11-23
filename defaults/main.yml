@@ -1,11 +1,5 @@
 ---
 
-  do_pkg_install:         false
-  do_config:              false
-  do_replica_set_init:    false
-  do_replica_set_shards:  false
-  force:                  false
-
   admin_password:         ""
   admin_user:             "admin"
   auth_db:                "admin"
