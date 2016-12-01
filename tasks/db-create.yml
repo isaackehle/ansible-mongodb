@@ -22,4 +22,7 @@
       < /tmp/db_create.js
     register: result
 
+  - name: Kill the db_create script
+    file: dest=/tmp/db_create.js
+
   - debug: var=result
