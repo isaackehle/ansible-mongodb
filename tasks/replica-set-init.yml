@@ -3,7 +3,7 @@
   - name: Stop services
     include: service-stop.yml
 
-  - name: Upload replicaSetInit config file
+  - name: Upload replica_set_init config file
     become: true
     template: src=../templates/mongod.conf.rsInit.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
 
@@ -16,15 +16,15 @@
 
   - pause: seconds=5
 
-  - name: Save the replicaSetInit template
-    template: src=../templates/replicaSetInit.js.j2 dest=/tmp/replicaSetInit.js
+  - name: Save the replica_set_init template
+    template: src=../templates/replica_set_init.js.j2 dest=/tmp/replica_set_init.js
     when: first_member == true
 
-  - name: Run the replicaSetInit script
+  - name: Run the replica_set_init script
     shell: >
       mongo
       --port {{ rs_port }}
-      < /tmp/replicaSetInit.js
+      < /tmp/replica_set_init.js
 
     when: first_member == true
     register: res_rsi
@@ -32,8 +32,8 @@
     retries: 5
     delay: 10
 
-  - name: Kill the replicaSetInit script
-    file: dest=/tmp/replicaSetInit.js
+  - name: Kill the replica_set_init script
+    file: dest=/tmp/replica_set_init.js
     when: first_member == true
 
   - name: Stop the daemon service

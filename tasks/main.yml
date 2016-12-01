@@ -13,3 +13,7 @@
 
   - include: replica-set-shards.yml
     when: rs_shards|bool == true
+
+  - include: db-create.yml
+    when: db_create|bool == true
+

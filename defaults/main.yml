@@ -4,6 +4,7 @@
   config_save:            false
   rs_init:                false
   rs_shards:              false
+  db_create:              false
 
 
   admin_password:         ""

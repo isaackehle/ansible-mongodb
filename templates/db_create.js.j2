@@ -1,0 +1,42 @@
+db.getSiblingDB("{{ auth_db }}").auth("{{ admin_user }}", "{{ admin_password }}");
+
+var names = db.getMongo().getDBNames();
+
+var found = false;
+names.forEach(function(item, index) {
+  if (item.name == "{{ mongodb_db_name }}") {
+    found = true;
+  }
+});
+
+if (!found) {
+  // create the database
+
+  var newDb = db.getSiblingDB("{{ mongodb_db_name }}")
+  sh.enableSharding("{{ mongodb_db_name }}");
+
+  db.getSiblingDB("config").databases.find();
+
+  var user = newDb.getUser("{{ mongodb_db_user }}");
+
+  if (!user) {
+    user = newDb.createUser({
+      "user": "{{ mongodb_db_user }}",
+      "pwd": "{{ mongodb_db_password }}",
+      "roles": []
+    });
+  }
+
+  newDb.grantRolesToUser("{{ mongodb_db_user }}", ["readWrite", "userAdmin"], {
+    w: "majority",
+    wtimeout: 4000
+  })
+
+  // {
+  //   "role": "db": "{{ mongodb_db_name }}"
+  // }, {
+  //   "role": ,
+  //   "db": "{{ mongodb_db_name }}"
+  // }
+
+}

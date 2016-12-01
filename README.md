@@ -64,9 +64,11 @@ rs_shards:      Add shard servers (replica sets) to the cluster
 
  
     roles:
+      - { name: pgkehle.mongodb-config, pkg_install: true }
       - { name: pgkehle.mongodb-config, config_save: true }
       - { name: pgkehle.mongodb-config, rs_init: true }
       - { name: pgkehle.mongodb-config, rs_shards: true }
+      - { name: pgkehle.mongodb-config, db_create: true }
 ```
 
 ## License
@@ -80,20 +82,23 @@ Paul Kehle
 
 ### References
 
-* https://www.digitalocean.com/community/tutorials/how-to-implement-replication-sets-in-mongodb-on-an-ubuntu-vps
-* https://www.digitalocean.com/community/tutorials/how-to-create-a-sharded-cluster-in-mongodb-using-an-ubuntu-12-04-vps
-* https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
-* https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set-with-keyfile-access-control/
-* https://docs.mongodb.com/v3.2/tutorial/add-shards-to-shard-cluster/
-* https://docs.mongodb.com/manual/reference/method/db.createUser/#db.createUser
-* http://codingmiles.com/mongodb-sharded-cluster-deployment/
-* https://docs.mongodb.com/manual/core/security-x.509/
-* https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/
-* https://docs.mongodb.com/manual/core/authorization/
-* https://docs.mongodb.com/manual/core/security-internal-authentication/
-* https://docs.mongodb.com/manual/tutorial/configure-x509-member-authentication/*x509-member-certificate
+* [Security Hardening](https://docs.mongodb.com/manual/core/security-hardening/)
+* [X509](https://docs.mongodb.com/manual/core/security-x.509/)
+* [Deploy Shard Cluster](https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/)
+* [Add Shards to Cluster](https://docs.mongodb.com/v3.2/tutorial/add-shards-to-shard-cluster/)
+* [Authorization](https://docs.mongodb.com/manual/core/authorization/)
+* [Internal Auth](https://docs.mongodb.com/manual/core/security-internal-authentication/)
+* [Configure Member Certificates](https://docs.mongodb.com/manual/tutorial/configure-x509-member-authentication/*x509-member-certificate)
+* [Enforce Keyfile Access Control](https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/)
+* [Deploy Replica Set w/ Keyfill Access Control](https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set-with-keyfile-access-control/)
+* [db.createUser()](https://docs.mongodb.com/manual/reference/method/db.createUser/#db.createUser)
+
 * http://dba.stackexchange.com/questions/80859/issues-with-self-signed-certificates-ssl-and-mongodb
 * https://blog.cloudandheat.com/index.php/en/2015/04/19/deploy-a-mongodb-3-0-replica-set-with-x-509-authentication-and-self-signed-certificates/
+
+* https://www.digitalocean.com/community/tutorials/how-to-implement-replication-sets-in-mongodb-on-an-ubuntu-vps
+* https://www.digitalocean.com/community/tutorials/how-to-create-a-sharded-cluster-in-mongodb-using-an-ubuntu-12-04-vps
+* http://codingmiles.com/mongodb-sharded-cluster-deployment/
 * http://dba.stackexchange.com/questions/80859/issues-with-self-signed-certificates-ssl-and-mongodb
 * http://demarcsek92.blogspot.com/2014/05/mongodb-ssl-setup.html
 
