@@ -1,42 +1,27 @@
 db.getSiblingDB("{{ auth_db }}").auth("{{ admin_user }}", "{{ admin_password }}");
 
-var names = db.getMongo().getDBNames();
+// var names = db.getMongo().getDBNames();
+// db.getSiblingDB("config").databases.find();
 
-var found = false;
-names.forEach(function(item, index) {
-  if (item.name == "{{ mongodb_db_name }}") {
-    found = true;
-  }
-});
+var myDb, user;
 
-if (!found) {
-  // create the database
+{% for user_cfg in app_users %}
 
-  var newDb = db.getSiblingDB("{{ mongodb_db_name }}")
-  sh.enableSharding("{{ mongodb_db_name }}");
+myDb = db.getSiblingDB("{{ user_cfg.db_name }}")
+sh.enableSharding("{{ user_cfg.db_name }}");
 
-  db.getSiblingDB("config").databases.find();
+user = myDb.getUser("{{ user_cfg.user }}");
 
-  var user = newDb.getUser("{{ mongodb_db_user }}");
-
-  if (!user) {
-    user = newDb.createUser({
-      "user": "{{ mongodb_db_user }}",
-      "pwd": "{{ mongodb_db_password }}",
-      "roles": []
-    });
-  }
-
-  newDb.grantRolesToUser("{{ mongodb_db_user }}", ["readWrite", "userAdmin"], {
-    w: "majority",
-    wtimeout: 4000
-  })
-
-  // {
-  //   "role": "db": "{{ mongodb_db_name }}"
-  // }, {
-  //   "role": ,
-  //   "db": "{{ mongodb_db_name }}"
-  // }
-
+if (!user) {
+  user = myDb.createUser({
+    "user": "{{ user_cfg.user }}",
+    "pwd": "{{ user_cfg.pwd }}",
+    "roles": []
+  });
+} else {
+  myDb.changeUserPassword("{{ user_cfg.user }}", "{{ user_cfg.pwd }}");
 }
+
+myDb.grantRolesToUser("{{ user_cfg.user }}", {{ user_cfg.roles | to_nice_json }}, { w: "majority", wtimeout: 4000 });
+
+{% endfor %}

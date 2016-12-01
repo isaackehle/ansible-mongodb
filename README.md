@@ -59,9 +59,16 @@ rs_shards:      Add shard servers (replica sets) to the cluster
 
   - hosts: all
  
-    # see defaults/main.yml
     vars: 
 
+    # for db_create, db_create_config is a YAML file that holds information about all databases that need
+    # to be created.  Required format is as follows (with typical roles displayed):
+    #
+    #  ---
+    # app_users:
+    #  - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
+
+    db_create_config: /path/to/user/config/file.yml 
  
     roles:
       - { name: pgkehle.mongodb-config, pkg_install: true }

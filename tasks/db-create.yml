@@ -1,10 +1,12 @@
 ---
 
-  - debug: var=mongodb_db_name
-  - debug: var=mongodb_db_user
-  - debug: var=mongodb_db_password
+#  - debug: var=db_create_config
+#  - debug: var=admin_password
 
-# admin_password
+  - include_vars:
+      file: "{{ db_create_config }}"
+
+  - debug: var=app_users
 
   - name: Save the db_create script
     template: src=../templates/db_create.js.j2 dest=/tmp/db_create.js
@@ -21,9 +23,3 @@
     register: result
 
   - debug: var=result
-
-#  - name: Run the db_create script
-#
-#    until: result.rc == 0
-#    retries: 5
-#    delay: 3
