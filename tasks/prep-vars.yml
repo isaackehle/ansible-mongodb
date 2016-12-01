@@ -2,15 +2,15 @@
 
   - name: Set the rs group name from cfg_server_name
     set_fact:
-      rs_server_group_id: "{{ cfg_server_name }}-servers"
+      rs_server_group_id: "{{ cfg_server_group_id }}"
     when:
-      - cfg_server_name is defined
+      - cfg_server_group_id is defined
 
   - name: Set the rs group name from replica_set_name
     set_fact:
-      rs_server_group_id: "{{ replica_set_name }}-servers"
+      rs_server_group_id: "{{ replica_set_group_id }}"
     when:
-      - replica_set_name is defined
+      - replica_set_group_id is defined
 
   - debug: msg="rs_server_group_id = {{rs_server_group_id}}"
 

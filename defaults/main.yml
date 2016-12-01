@@ -1,5 +1,11 @@
 ---
 
+  pkg_install:            false
+  config_save:            false
+  rs_init:                false
+  rs_shards:              false
+
+
   admin_password:         ""
   admin_user:             "admin"
   auth_db:                "admin"

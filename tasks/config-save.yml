@@ -47,7 +47,7 @@
     service: name=mongos enabled=yes
     when: mongodb_type == "shard"
 
-  - name: Truncate logs
+  - name: Kill logs
     become: true
     file: path={{ item }} state=absent  # state=empty
     with_items:

@@ -6,36 +6,13 @@ Available on Ansible Galaxy: [pgkehle.mongodb-config](https://galaxy.ansible.com
 
 ## Variables
 
-Group definitions are expected as such:
+Required definitions are as follows:
 
 ```
-[app-query-servers]
-app-q0
-app-q1
+cfg_server_name:        "app-cfg"           # (Required)   
+cfg_server_group_id:    "app-cfg-servers"   # (Required) Always pass in the group id used for the config servers 
+replica_set_group_id:   "app-shd00-servers" # (Optional) If initializing a replica set as part of a MongoDB cluster
 
-[app-cfg-servers]
-app-cfg-rs0
-app-cfg-rs1
-app-cfg-rs2
-
-[app-shd00-servers]
-app-shd00-rs0
-app-shd00-rs1
-app-shd00-rs2
-
-[app-shd01-servers]
-app-shd01-rs0
-app-shd01-rs1
-app-shd01-rs2
-
-[app-shard-servers:children]
-app-shd00-servers
-app-shd01-servers
-
-[app-servers:children]
-app-query-servers
-app-cfg-servers
-app-shard-servers
 ```
 
 Host Definitions typically contain the following:
@@ -43,43 +20,38 @@ Host Definitions typically contain the following:
 #### Query Server:
 
 ```
-mongodb_type:     "shard"
-cluster_role:     "querysvr"
-first_member:     false
+mongodb_type:           "shard"
+cluster_role:           "querysvr"
+first_member:           false
 ```
 
 #### Config Server:
 ```
-mongodb_type:     "daemon"
-cluster_role:     "configsvr"
-replica_set_name: "app-cfg"     # name of the replica set for the config server (prefix of fqdn)
-first_member:     false
+mongodb_type:           "daemon"
+cluster_role:           "configsvr"
+replica_set_name:       "app-cfg"               # name of the replica set for the config server (prefix of fqdn)
+replica_set_group_id:   "app-cfg-servers"       # group name for all servers in the replica set
+first_member:           false
 ```
 
 #### Shard Server:
 ```
-mongodb_type:     "daemon"
-cluster_role:     "shardsvr"
-replica_set_name: "app-shd00"   # name of the replica set for the shard server (prefix of fqdn)
-first_member:     false
+mongodb_type:           "daemon"
+cluster_role:           "shardsvr"
+replica_set_name:       "app-shd00"             # name of the replica set for the shard server (prefix of fqdn)
+replica_set_group_id:   "app-shd00-servers"     # group name for all servers in the replica set
+first_member:           false
 ```
 
-#### App Server Config
+## Variables
 
-Also need some helper definitions, included for each server
-
+Flags for which sections to run
 ```
-  # name of config server replica set name when configuring query servers
-  - cfg_server_name: "app-cfg"  
+pkg_install:    Install mongo packages
+config_save:    Basic initialization.  Stop Services, push service/config files, clear directories and logs, restart services
+rs_init:        Initialize the replica set configuration
+rs_shards:      Add shard servers (replica sets) to the cluster
 ```
-
-## Tags
-
-    pkg_install:    Install mongo packages
-    config:         Basic initialization.  Stop Services, push service/config files, clear directories and logs, restart services
-    rs_init:        Initialize the replica set configuration
-    rs_shards:      Add shard servers (replica sets) to the cluster
-
 
 ## Examples
 
@@ -92,9 +64,9 @@ Also need some helper definitions, included for each server
 
  
     roles:
-      - { name: pgkehle.mongodb-config, tags: ['config'] }
-      - { name: pgkehle.mongodb-config, tags: ['rs_init'] }
-      - { name: pgkehle.mongodb-config, tags: ['rs_shards'] }
+      - { name: pgkehle.mongodb-config, config_save: true }
+      - { name: pgkehle.mongodb-config, rs_init: true }
+      - { name: pgkehle.mongodb-config, rs_shards: true }
 ```
 
 ## License
@@ -115,8 +87,6 @@ Paul Kehle
 * https://docs.mongodb.com/v3.2/tutorial/add-shards-to-shard-cluster/
 * https://docs.mongodb.com/manual/reference/method/db.createUser/#db.createUser
 * http://codingmiles.com/mongodb-sharded-cluster-deployment/
-
-
 * https://docs.mongodb.com/manual/core/security-x.509/
 * https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/
 * https://docs.mongodb.com/manual/core/authorization/
