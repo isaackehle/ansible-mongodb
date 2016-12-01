@@ -99,6 +99,7 @@ Paul Kehle
 * [Enforce Keyfile Access Control](https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/)
 * [Deploy Replica Set w/ Keyfill Access Control](https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set-with-keyfile-access-control/)
 * [db.createUser()](https://docs.mongodb.com/manual/reference/method/db.createUser/#db.createUser)
+* [Secure MongoDB With x509](https://www.mongodb.com/blog/post/secure-mongodb-with-x-509-authentication)
 
 * http://dba.stackexchange.com/questions/80859/issues-with-self-signed-certificates-ssl-and-mongodb
 * https://blog.cloudandheat.com/index.php/en/2015/04/19/deploy-a-mongodb-3-0-replica-set-with-x-509-authentication-and-self-signed-certificates/
