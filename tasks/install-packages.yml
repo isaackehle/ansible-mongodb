@@ -1,0 +1,34 @@
+---
+
+  - name: get release value
+    command: lsb_release -sc
+    register: lsb_release_out
+
+  - set_fact:
+      lsb_release: "{{ lsb_release_out.stdout }}"
+
+  - name: Add APT Key
+    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+    become: true
+
+  - name: Save List
+    template: src=../templates/mongodb.list.j2 dest=/etc/apt/sources.list.d/mongodb.list owner=root group=root mode="u=rw,g=r,o=r"
+    become: true
+
+  - name: Install the mongodb packages
+    apt:
+      name: mongodb-org
+      state: present
+      update_cache: yes
+    become: true
+
+  - name: Autoremove unused
+    become: true
+    raw: sudo apt -y autoremove
+#      apt:
+#        autoremove: yes
+
+  - name: Dist Upgrade
+    become: true
+    apt:
+      upgrade: dist

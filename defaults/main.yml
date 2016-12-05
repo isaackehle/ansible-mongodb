@@ -1,9 +1,11 @@
 ---
 
-  do_config:              false
-  do_replica_set_init:    false
-  do_replica_set_shards:  false
-  force:                  false
+  pkg_install:            false
+  config_save:            false
+  rs_init:                false
+  rs_shards:              false
+  db_create:              false
+
 
   admin_password:         ""
   admin_user:             "admin"

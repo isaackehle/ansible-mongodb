@@ -18,11 +18,6 @@
 ##      - mongodb_type == "shard"
 ##
 
-  - name: Enable mongos service, if needed
-    become: true
-    service: name=mongos enabled=yes
-    when: mongodb_type == "shard"
-
   - name: Copying daemon system file templates
     become: true
     template: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
@@ -37,7 +32,7 @@
     with_items:
       - { dest: /lib/systemd/system/mongod.service }
       - { dest: /etc/mongod.conf }
-    when: mongodb_type == "shard"
+    when: not mongodb_type == "daemon"
 
   - name: Copying shard templates, if needed
     become: true
@@ -47,7 +42,12 @@
       - { src: ../templates/mongos.conf.j2, dest: /etc/mongos.conf }
     when: mongodb_type == "shard"
 
-  - name: Truncate logs
+  - name: Enable mongos service, if needed
+    become: true
+    service: name=mongos enabled=yes
+    when: mongodb_type == "shard"
+
+  - name: Kill logs
     become: true
     file: path={{ item }} state=absent  # state=empty
     with_items:

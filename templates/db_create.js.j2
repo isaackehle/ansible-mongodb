@@ -1,0 +1,27 @@
+db.getSiblingDB("{{ auth_db }}").auth("{{ admin_user }}", "{{ admin_password }}");
+
+// var names = db.getMongo().getDBNames();
+// db.getSiblingDB("config").databases.find();
+
+var myDb, user;
+
+{% for user_cfg in app_users %}
+
+myDb = db.getSiblingDB("{{ user_cfg.db_name }}")
+sh.enableSharding("{{ user_cfg.db_name }}");
+
+user = myDb.getUser("{{ user_cfg.user }}");
+
+if (!user) {
+  user = myDb.createUser({
+    "user": "{{ user_cfg.user }}",
+    "pwd": "{{ user_cfg.pwd }}",
+    "roles": []
+  });
+} else {
+  myDb.changeUserPassword("{{ user_cfg.user }}", "{{ user_cfg.pwd }}");
+}
+
+myDb.grantRolesToUser("{{ user_cfg.user }}", {{ user_cfg.roles | to_nice_json }}, { w: "majority", wtimeout: 4000 });
+
+{% endfor %}

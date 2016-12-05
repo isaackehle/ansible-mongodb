@@ -1,7 +1,7 @@
 //use {{ auth_db }}
 //db.auth("{{ admin_user }}", "{{ admin_password }}" )
 
-db.getSiblingDB("admin").auth("{{ admin_user }}", "{{ admin_password }}" )
+db.getSiblingDB("{{ auth_db }}").auth("{{ admin_user }}", "{{ admin_password }}" )
 
 {% for hn in groups['app-shard-servers']  %}
 {% if hostvars[ hn ].first_member == true %}
