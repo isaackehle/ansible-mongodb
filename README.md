@@ -1,8 +1,8 @@
-# Ansible: mongodb-config
+# Ansible: mongodb
 
 Configure the components of a MongoDB Cluster
 
-Available on Ansible Galaxy: [pgkehle.mongodb-config](https://galaxy.ansible.com/pgkehle/mongodb-config)
+Available on Ansible Galaxy: [pgkehle.mongodb](https://galaxy.ansible.com/pgkehle/mongodb)
 
 ## Variables
 
@@ -71,11 +71,11 @@ rs_shards:      Add shard servers (replica sets) to the cluster
     db_create_config: /path/to/user/config/file.yml 
  
     roles:
-      - { name: pgkehle.mongodb-config, pkg_install: true }
-      - { name: pgkehle.mongodb-config, config_save: true }
-      - { name: pgkehle.mongodb-config, rs_init: true }
-      - { name: pgkehle.mongodb-config, rs_shards: true }
-      - { name: pgkehle.mongodb-config, db_create: true }
+      - { name: pgkehle.mongodb, pkg_install: true }
+      - { name: pgkehle.mongodb, config_save: true }
+      - { name: pgkehle.mongodb, rs_init: true }
+      - { name: pgkehle.mongodb, rs_shards: true }
+      - { name: pgkehle.mongodb, db_create: true }
 ```
 
 ## License
