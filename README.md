@@ -43,8 +43,6 @@ replica_set_group_id:   "app-shd00-servers"     # group name for all servers in 
 first_member:           false
 ```
 
-## Variables
-
 Flags for which sections to run
 ```
 pkg_install:    Install mongo packages
