@@ -24,7 +24,7 @@
     with_items:
       - { src: ../templates/mongod.service.j2, dest: /lib/systemd/system/mongod.service }
       - { src: ../templates/mongod.conf.j2, dest: /etc/mongod.conf }
-    when: mongodb_type == "daemon"
+    when: mongodb_type == "daemon" or mongodb_type == "standalone"
 
   - name: Remove daemon system files when n/a
     become: true
@@ -32,7 +32,7 @@
     with_items:
       - { dest: /lib/systemd/system/mongod.service }
       - { dest: /etc/mongod.conf }
-    when: not mongodb_type == "daemon"
+    when: mongodb_type == "daemon" or mongodb_type == "standalone"
 
   - name: Copying shard templates, if needed
     become: true
@@ -46,17 +46,6 @@
     become: true
     service: name=mongos enabled=yes
     when: mongodb_type == "shard"
-
-  - name: Kill logs
-    become: true
-    file: path={{ item }} state=absent  # state=empty
-    with_items:
-      - /var/log/mongodb/mongod.log
-      - /var/log/mongodb/mongos.log
-
-  - name: Reset directories
-    include: directories-init.yml
-    no_log: true
 
   - name: Reload the systemd daemon
     command: systemctl daemon-reload

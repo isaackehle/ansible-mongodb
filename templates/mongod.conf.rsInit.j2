@@ -16,17 +16,18 @@ storage:
 systemLog:
   destination: file
   logAppend: true
-  path: /var/log/mongodb/mongod.log
+  path: {{ log_path_d }}
 
 {% if replica_set_name is defined %}
 replication:
   replSetName: {{ replica_set_name }}
 {% endif %}
 
+{% if cluster_role is defined %}
 sharding:
   clusterRole: {{ cluster_role }}
+{% endif %}
 
-#processManagement:
 
 #security:
 #   clusterAuthMode: x509
@@ -43,10 +44,9 @@ net:
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}
 
+
+#processManagement:
 #operationProfiling:
-
 ## Enterprise-Only Options:
-
 #auditLog:
-
 #snmp:

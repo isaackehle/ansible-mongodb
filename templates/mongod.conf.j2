@@ -16,37 +16,47 @@ storage:
 systemLog:
   destination: file
   logAppend: true
-  path: /var/log/mongodb/mongod.log
+  path: {{ log_path_d }}
 
 {% if replica_set_name is defined %}
 replication:
   replSetName: {{ replica_set_name }}
 {% endif %}
 
+{% if cluster_role is defined %}
 sharding:
   clusterRole: {{ cluster_role }}
+{% endif %}
 
-#processManagement:
 
 security:
+{% if mongodb_security == 'keyfile' %}
+  authorization: enabled
+  keyFile: {{ keyfile_path }}
+{% endif %}
+{% if mongodb_security == 'x509' %}
    clusterAuthMode: x509
+{% endif %}
 
 # network interfaces
 net:
   port: {{ rs_port }}
+{% if mongodb_security == 'keyfile' %}
+  bindIp: 127.0.0.1,{{ ansible_host }}
+{% endif %}
+{% if mongodb_security == 'x509' %}
   bindIp: 0.0.0.0
-  # bindIp: 127.0.0.1,{{ ansible_host }}
   ssl:
     mode: requireSSL
     disabledProtocols: "TLS1_0,TLS1_1"
     PEMKeyFile: {{ sc_chain_remote }}
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}
+{% endif %}
 
+
+#processManagement:
 #operationProfiling:
-
 ## Enterprise-Only Options:
-
 #auditLog:
-
 #snmp:

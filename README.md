@@ -46,9 +46,11 @@ first_member:           false
 Flags for which sections to run
 ```
 pkg_install:    Install mongo packages
-config_save:    Basic initialization.  Stop Services, push service/config files, clear directories and logs, restart services
+config_save:    Basic initialization.  Stop Services, push service/config files, restart services
+storage_init:   Clear directories and logs
 rs_init:        Initialize the replica set configuration
 rs_shards:      Add shard servers (replica sets) to the cluster
+db_create:      Do initial db creation
 ```
 
 ## Examples
@@ -71,6 +73,7 @@ rs_shards:      Add shard servers (replica sets) to the cluster
     roles:
       - { name: pgkehle.mongodb, pkg_install: true }
       - { name: pgkehle.mongodb, config_save: true }
+      - { name: pgkehle.mongodb, storage_init: true }
       - { name: pgkehle.mongodb, rs_init: true }
       - { name: pgkehle.mongodb, rs_shards: true }
       - { name: pgkehle.mongodb, db_create: true }

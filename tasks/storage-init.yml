@@ -3,6 +3,13 @@
 #  - stat: path=/srv/mongodb
 #    register: stat_db
 
+  - name: Kill logs
+    become: true
+    file: path={{ item }} state=absent  # state=empty
+    with_items:
+      - "{{ log_path_d }}"
+      - "{{ log_path_s }}"
+
   - name: Status of data directory
     stat: path=/mnt/data
     register: stat_mnt
