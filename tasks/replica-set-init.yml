@@ -7,10 +7,6 @@
     become: true
     template: src=../templates/mongod.conf.rsInit.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
 
-  - name: Reset directories
-    include: directories-init.yml
-    no_log: true
-
   - name: Start the appropriate services
     include: service-start.yml
 

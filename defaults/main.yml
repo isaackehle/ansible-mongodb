@@ -1,20 +1,21 @@
 ---
 
-  pkg_install:            false
-  config_save:            false
-  rs_init:                false
-  rs_shards:              false
-  db_create:              false
+pkg_install:            false
+config_save:            false
+rs_init:                false
+storage_init:           false
+rs_shards:              false
+db_create:              false
 
 
-  admin_password:         ""
-  admin_user:             "admin"
-  auth_db:                "admin"
+admin_password:         ""
+admin_user:             "admin"
+auth_db:                "admin"
 
-  sc_common_name:         ""
-  sc_deploy_path:         "/etc/ssl/{{ sc_common_name }}"
-  sc_csr_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.csr"
-  sc_key_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.key"
-  sc_cert_remote:         "{{ sc_deploy_path }}/{{ sc_common_name }}.cert.pem"
-  sc_chain_remote:        "{{ sc_deploy_path }}/{{ sc_common_name }}.chain.pem"
-  sc_interm_remote:       "{{ sc_deploy_path }}/{{ sc_common_name }}.intermediate.pem"
+sc_common_name:         ""
+sc_deploy_path:         "/etc/ssl/{{ sc_common_name }}"
+sc_csr_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.csr"
+sc_key_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.key"
+sc_cert_remote:         "{{ sc_deploy_path }}/{{ sc_common_name }}.cert.pem"
+sc_chain_remote:        "{{ sc_deploy_path }}/{{ sc_common_name }}.chain.pem"
+sc_interm_remote:       "{{ sc_deploy_path }}/{{ sc_common_name }}.intermediate.pem"

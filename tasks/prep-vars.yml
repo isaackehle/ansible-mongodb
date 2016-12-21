@@ -12,7 +12,7 @@
     when:
       - replica_set_group_id is defined
 
-  - debug: msg="rs_server_group_id = {{rs_server_group_id}}"
+  - debug: var=rs_server_group_id
 
   - name: Set the replicaSet group
     set_fact:
@@ -32,4 +32,4 @@
     set_fact:
       rs_port: "{{ ports[cluster_role] }}"
 
-  - debug: msg="rs_port = {{ rs_port }}"
+  - debug: var=rs_port
