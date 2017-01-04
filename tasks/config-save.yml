@@ -20,7 +20,7 @@
 
   - name: Copying daemon system file templates
     become: true
-    template: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
+    template: src={{ item.src }} dest={{ item.dest }} # owner=root group=root mode="u=rw,g=r,o=r"
     with_items:
       - { src: ../templates/mongod.service.j2, dest: /lib/systemd/system/mongod.service }
       - { src: ../templates/mongod.conf.j2, dest: /etc/mongod.conf }
@@ -30,13 +30,13 @@
     become: true
     file: dest={{ item.dest }} state=absent
     with_items:
-      - { dest: /lib/systemd/system/mongod.service }
-      - { dest: /etc/mongod.conf }
-    when: mongodb_type == "daemon" or mongodb_type == "standalone"
+      - { dest: /lib/systemd/system/mongos.service }
+      - { dest: /etc/mongos.conf }
+    when: mongodb_type == "shard"
 
   - name: Copying shard templates, if needed
     become: true
-    template: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode="u=rw,g=r,o=r"
+    template: src={{ item.src }} dest={{ item.dest }} # owner=root group=root mode="u=rw,g=r,o=r"
     with_items:
       - { src: ../templates/mongos.service.j2, dest: /lib/systemd/system/mongos.service }
       - { src: ../templates/mongos.conf.j2, dest: /etc/mongos.conf }

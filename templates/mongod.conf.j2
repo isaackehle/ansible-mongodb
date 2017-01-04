@@ -5,7 +5,7 @@
 
 # Where and how to store data.
 storage:
-  dbPath: {{ data_directory }}
+  dbPath: {{ srv_dir }}
   journal:
     enabled: true
 #  engine:
@@ -28,14 +28,15 @@ sharding:
   clusterRole: {{ cluster_role }}
 {% endif %}
 
-
 security:
+{% if mongodb_security is defined %}
 {% if mongodb_security == 'keyfile' %}
   authorization: enabled
   keyFile: {{ keyfile_path }}
 {% endif %}
 {% if mongodb_security == 'x509' %}
    clusterAuthMode: x509
+{% endif %}
 {% endif %}
 
 # network interfaces
@@ -53,7 +54,6 @@ net:
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}
 {% endif %}
-
 
 #processManagement:
 #operationProfiling:

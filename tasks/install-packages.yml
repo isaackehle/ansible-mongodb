@@ -8,19 +8,23 @@
       lsb_release: "{{ lsb_release_out.stdout }}"
 
   - name: Add APT Key
-    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv {{ ppa_pubkey }}
     become: true
 
   - name: Save List
     template: src=../templates/mongodb.list.j2 dest=/etc/apt/sources.list.d/mongodb.list owner=root group=root mode="u=rw,g=r,o=r"
     become: true
 
+  - name: Update APT Cache
+    become: true
+    apt:
+      update_cache: yes
+
   - name: Install the mongodb packages
+    become: true
     apt:
       name: mongodb-org
       state: present
-      update_cache: yes
-    become: true
 
   - name: Autoremove unused
     become: true
@@ -28,7 +32,9 @@
 #      apt:
 #        autoremove: yes
 
-  - name: Dist Upgrade
+  - name: Full Upgrade
     become: true
+#    raw: apt -y full-upgrade
     apt:
       upgrade: dist
+

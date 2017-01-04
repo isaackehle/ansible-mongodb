@@ -7,6 +7,11 @@ storage_init:           false
 rs_shards:              false
 db_create:              false
 
+mongo_version:          "3.4"
+ppa_pubkey:             "A15703C6"
+
+#mongo_version:          "3.2"
+#ppa_pubkey:             "EA312927"
 
 admin_password:         ""
 admin_user:             "admin"
