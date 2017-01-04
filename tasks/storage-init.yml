@@ -1,6 +1,6 @@
 ---
 
-#  - stat: path=/srv/mongodb
+#  - stat: path={{ srv_dir }}
 #    register: stat_db
 
   - name: Kill logs
@@ -11,31 +11,29 @@
       - "{{ log_path_s }}"
 
   - name: Status of data directory
-    stat: path=/mnt/data
+    stat: path={{ mount_dir }}
     register: stat_mnt
 
   - name: Delete srv directory
-#    shell: rm -rf /srv/mongodb
-    file: path=/srv/mongodb state=absent
+    file: path={{ srv_dir }} state=absent
     become: true
 
   - name: Delete mounted directory
-#    shell: rm -rf /mnt/data/mongodb/
-    file: path=/mnt/data/mongodb/ state=absent
+    file: path={{ data_dir }} state=absent
     become: true
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir
 
   - name: Create db dir, basic
-    file: path=/srv/mongodb state=directory mode=755 owner=mongodb group=mongodb
+    file: path={{ data_dir }} state=directory mode=755 owner=mongodb group=mongodb
     when: stat_mnt.stat.isdir is not defined or stat_mnt.stat.isdir == false
     become: true
 
   - name: Create db dir, mounted
-    file: path=/mnt/data/mongodb/ state=directory mode=755 owner=mongodb group=mongodb
+    file: path={{ data_dir }} state=directory mode=755 owner=mongodb group=mongodb
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir == true
     become: true
 
   - name: Create link, if needed
-    file: src=/mnt/data/mongodb dest=/srv/mongodb state=link mode=755 owner=mongodb group=mongodb
+    file: src={{ data_dir }} dest={{ srv_dir }} state=link mode=755 owner=mongodb group=mongodb
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir|bool == true
     become: true

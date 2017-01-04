@@ -1,11 +1,14 @@
 ---
 
-  - debug: "msg='mongodb_type: {{mongodb_type}}'"
+  - debug: var=mongodb_type
+
+  - stat: path=/lib/systemd/system/mongod.service
+    register: stat_d
 
   - name: Start the daemon service, if needed
     become: true
     service: name=mongod state=started
-    when: mongodb_type == "daemon"
+    when: mongodb_type == "daemon" or mongodb_type == "standalone"
 
   - name: Start the shard service, if needed
     become: true
