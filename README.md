@@ -61,15 +61,9 @@ db_create:      Do initial db creation
  
     vars: 
 
-    # for db_create, db_create_config is a YAML file that holds information about all databases that need
-    # to be created.  Required format is as follows (with typical roles displayed):
-    #
-    #  ---
-    # app_users:
-    #  - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
+      app_users:
+        - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
 
-    db_create_config: /path/to/user/config/file.yml 
- 
     roles:
       - { name: pgkehle.mongodb, pkg_install: true }
       - { name: pgkehle.mongodb, config_save: true }
