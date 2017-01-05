@@ -1,10 +1,7 @@
 ---
 
-#  - debug: var=db_create_config
+#  - debug: var=app_users
 #  - debug: var=admin_password
-
-  - include_vars:
-      file: "{{ db_create_config }}"
 
   - debug: var=app_users
 

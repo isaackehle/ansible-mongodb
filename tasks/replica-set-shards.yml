@@ -13,7 +13,6 @@
       --sslPEMKeyFile {{ sc_chain_remote }}
       --sslCAFile {{ sc_interm_remote }}
       < /tmp/replica_set_shards.js
-
     when: first_member == true
     register: result
     until: result.rc == 0
