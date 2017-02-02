@@ -1,6 +1,6 @@
 galaxy_info:
   author: Paul Kehle <twitter.com/pgkehle>
-  description: Configure the components of a MongoDB Mesh Network
+  description: Configure the components of a MongoDB Cluster
   company: pgkehle
   license: MIT
   min_ansible_version: 1.9
