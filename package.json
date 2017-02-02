@@ -1,5 +1,5 @@
 {
-  "name": "ansible-vm-storage",
+  "name": "ansible-mongo",
   "version": "0.9.9",
   "description": "Configure the components of a MongoDB Cluster",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pgkehle/ansible-vm-storage.git"
+    "url": "git+https://github.com/pgkehle/ansible-mongo.git"
   },
   "author": "Paul Kehle (pgkehle@gmail.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pgkehle/ansible-vm-storage/issues"
+    "url": "https://github.com/pgkehle/ansible-mongo/issues"
   },
-  "homepage": "https://github.com/pgkehle/ansible-vm-storage#readme",
+  "homepage": "https://github.com/pgkehle/ansible-mongo#readme",
   "main": "tasks/main.yml",
   "keywords": [
     "ansible"
