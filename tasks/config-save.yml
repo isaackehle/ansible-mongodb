@@ -3,53 +3,43 @@
   - name: Stop services
     include: service-stop.yml
 
-#  - name: Enable mongod service, if needed
-#    become: true
-#    service: name=mongod enabled=yes
-#    when:
-#      - stat_d.stat.exists
-#      - mongodb_type == "daemon"
-#
-##  - name: Disable mongod service, if needed
-##    become: true
-##    service: name=mongod enabled=no
-##    when:
-##      - stat_d.stat.exists
-##      - mongodb_type == "shard"
-##
-
-  - name: Copying daemon system file templates
-    become: true
-    template: src={{ item.src }} dest={{ item.dest }} # owner=root group=root mode="u=rw,g=r,o=r"
-    with_items:
-      - { src: ../templates/mongod.service.j2, dest: /lib/systemd/system/mongod.service }
-      - { src: ../templates/mongod.conf.j2, dest: /etc/mongod.conf }
-    when: mongodb_type == "daemon" or mongodb_type == "standalone"
-
-  - name: Remove daemon system files when n/a
+  - name: Remove all mongo config files
     become: true
     file: dest={{ item.dest }} state=absent
     with_items:
+      - { dest: /lib/systemd/system/mongodb.service }
+      - { dest: /lib/systemd/system/mongod.service }
       - { dest: /lib/systemd/system/mongos.service }
+      - { dest: /etc/systemd/system/mongodb.service }
+      - { dest: /etc/systemd/system/mongod.service }
+      - { dest: /etc/systemd/system/mongos.service }
+      - { dest: /etc/mongodb.conf }
+      - { dest: /etc/mongod.conf }
       - { dest: /etc/mongos.conf }
-    when: mongodb_type == "shard"
 
-  - name: Copying shard templates, if needed
+  - name: Copying mongod settings, if needed
     become: true
     template: src={{ item.src }} dest={{ item.dest }} # owner=root group=root mode="u=rw,g=r,o=r"
     with_items:
-      - { src: ../templates/mongos.service.j2, dest: /lib/systemd/system/mongos.service }
-      - { src: ../templates/mongos.conf.j2, dest: /etc/mongos.conf }
-    when: mongodb_type == "shard"
+      - { src: ../templates/mongodb.daemon.service.j2, dest: /etc/systemd/system/mongodb.service }
+      - { src: ../templates/mongodb.daemon.conf.j2, dest: /etc/mongodb.conf }
+    when: mongodb_type == "daemon" or mongodb_type == "standalone"
 
-  - name: Enable mongos service, if needed
+  - name: Copying mongos settings, if needed
     become: true
-    service: name=mongos enabled=yes
+    template: src={{ item.src }} dest={{ item.dest }} # owner=root group=root mode="u=rw,g=r,o=r"
+    with_items:
+      - { src: ../templates/mongodb.shard.service.j2, dest: /etc/systemd/system/mongodb.service }
+      - { src: ../templates/mongodb.shard.conf.j2, dest: /etc/mongodb.conf }
     when: mongodb_type == "shard"
 
   - name: Reload the systemd daemon
     command: systemctl daemon-reload
     become: true
+
+  - name: Enable mongodb service
+    become: true
+    service: name=mongodb enabled=yes
 
   - name: Start the appropriate services
     include: service-start.yml

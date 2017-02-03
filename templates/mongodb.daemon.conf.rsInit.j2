@@ -1,13 +1,13 @@
-# mongos.conf
+# mongodb.conf
 
 # for documentation of all options, see:
 #   http://docs.mongodb.org/manual/reference/configuration-options/
 
 # Where and how to store data.
-#storage:
-#  dbPath: {{ srv_dir }}
-#  journal:
-#    enabled: true
+storage:
+  dbPath: {{ srv_dir }}
+  journal:
+    enabled: true
 #  engine:
 #  mmapv1:
 #  wiredTiger:
@@ -16,19 +16,21 @@
 systemLog:
   destination: file
   logAppend: true
-  path: {{ log_path_s }}
+  path: {{ log_path }}
 
-#replication:
-
-{% if config_db %}
-sharding:
-  configDB: {{ config_db }}
+{% if replica_set_name is defined %}
+replication:
+  replSetName: {{ replica_set_name }}
 {% endif %}
 
-#processManagement:
+{% if cluster_role is defined %}
+sharding:
+  clusterRole: {{ cluster_role }}
+{% endif %}
 
-security:
-   clusterAuthMode: x509
+
+#security:
+#   clusterAuthMode: x509
 
 # network interfaces
 net:
@@ -36,16 +38,15 @@ net:
   bindIp: 0.0.0.0
   # bindIp: 127.0.0.1,{{ ansible_host }}
   ssl:
-    mode: requireSSL
+    mode: allowSSL # requireSSL
     disabledProtocols: "TLS1_0,TLS1_1"
     PEMKeyFile: {{ sc_chain_remote }}
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}
 
+
+#processManagement:
 #operationProfiling:
-
 ## Enterprise-Only Options:
-
 #auditLog:
-
 #snmp:

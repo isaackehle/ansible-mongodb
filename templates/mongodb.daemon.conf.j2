@@ -1,4 +1,4 @@
-# mongod.conf
+# mongodb.conf
 
 # for documentation of all options, see:
 #   http://docs.mongodb.org/manual/reference/configuration-options/
@@ -16,7 +16,7 @@ storage:
 systemLog:
   destination: file
   logAppend: true
-  path: {{ log_path_d }}
+  path: {{ log_path }}
 
 {% if replica_set_name is defined %}
 replication:
@@ -28,22 +28,32 @@ sharding:
   clusterRole: {{ cluster_role }}
 {% endif %}
 
-
-#security:
-#   clusterAuthMode: x509
+security:
+{% if mongodb_security is defined %}
+{% if mongodb_security == 'keyfile' %}
+  authorization: enabled
+  keyFile: {{ keyfile_path }}
+{% endif %}
+{% if mongodb_security == 'x509' %}
+   clusterAuthMode: x509
+{% endif %}
+{% endif %}
 
 # network interfaces
 net:
   port: {{ rs_port }}
+{% if mongodb_security == 'keyfile' %}
+  bindIp: 127.0.0.1,{{ ansible_host }}
+{% endif %}
+{% if mongodb_security == 'x509' %}
   bindIp: 0.0.0.0
-  # bindIp: 127.0.0.1,{{ ansible_host }}
   ssl:
-    mode: allowSSL # requireSSL
+    mode: requireSSL
     disabledProtocols: "TLS1_0,TLS1_1"
     PEMKeyFile: {{ sc_chain_remote }}
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}
-
+{% endif %}
 
 #processManagement:
 #operationProfiling:

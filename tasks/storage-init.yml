@@ -7,8 +7,7 @@
     become: true
     file: path={{ item }} state=absent  # state=empty
     with_items:
-      - "{{ log_path_d }}"
-      - "{{ log_path_s }}"
+      - "{{ log_path }}"
 
   - name: Status of data directory
     stat: path={{ mount_dir }}

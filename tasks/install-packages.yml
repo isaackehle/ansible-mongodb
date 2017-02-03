@@ -20,6 +20,12 @@
     apt:
       update_cache: yes
 
+  - name: Remove old mongodb packages
+    become: true
+    apt:
+      name: mongodb
+      state: absent
+
   - name: Install the mongodb packages
     become: true
     apt:

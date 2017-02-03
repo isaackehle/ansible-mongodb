@@ -1,45 +1,45 @@
 ---
 
-  - name: Stop services
-    include: service-stop.yml
+- name: Stop services
+  include: service-stop.yml
 
-  - name: Upload replica_set_init config file
-    become: true
-    template: src=../templates/mongod.conf.rsInit.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
+- name: Upload replica_set_init config file
+  become: true
+  template: src=../templates/mongodb.daemon.conf.rsInit.j2 dest=/etc/mongodb.conf owner=root group=root mode="u=rw,g=r,o=r"
 
-  - name: Start the appropriate services
-    include: service-start.yml
+- name: Start the appropriate services
+  include: service-start.yml
 
-  - pause: seconds=5
+- pause: seconds=5
 
-  - name: Save the replica_set_init template
-    template: src=../templates/replica_set_init.js.j2 dest=/tmp/replica_set_init.js
-    when: first_member == true
+- name: Save the replica_set_init template
+  template: src=../templates/replica_set_init.js.j2 dest=/tmp/replica_set_init.js
+  run_once: true
 
-  - name: Run the replica_set_init script
-    shell: >
-      mongo
-      --port {{ rs_port }}
-      < /tmp/replica_set_init.js
+- name: Run the replica_set_init script
+  shell: >
+    mongo
+    --port {{ rs_port }}
+    < /tmp/replica_set_init.js
 
-    when: first_member == true
-    register: res_rsi
-    until: res_rsi.rc == 0
-    retries: 5
-    delay: 10
+  run_once: true
+  register: res_rsi
+  until: res_rsi.rc == 0
+  retries: 5
+  delay: 10
 
-  - name: Kill the replica_set_init script
-    file: dest=/tmp/replica_set_init.js
-    when: first_member == true
+- name: Kill the replica_set_init script
+  file: dest=/tmp/replica_set_init.js
+  run_once: true
 
-  - name: Stop the daemon service
-    become: true
-    service: name=mongod state=stopped
+- name: Stop the daemon service
+  become: true
+  service: name=mongod state=stopped
 
-  - name: Restore the mongodb configuration
-    become: true
-    template: src=../templates/mongod.conf.j2 dest=/etc/mongod.conf owner=root group=root mode="u=rw,g=r,o=r"
+- name: Restore the mongodb configuration
+  become: true
+  template: src=../templates/mongodb.daemon.conf.j2 dest=/etc/mongodb.conf owner=root group=root mode="u=rw,g=r,o=r"
 
-  - name: Restart the daemon service
-    become: true
-    service: name=mongod state=started
+- name: Restart the daemon service
+  become: true
+  service: name=mongod state=started

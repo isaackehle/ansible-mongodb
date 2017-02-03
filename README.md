@@ -22,7 +22,6 @@ Host Definitions typically contain the following:
 ```
 mongodb_type:           "shard"
 cluster_role:           "querysvr"
-first_member:           false
 ```
 
 #### Config Server:
@@ -31,7 +30,6 @@ mongodb_type:           "daemon"
 cluster_role:           "configsvr"
 replica_set_name:       "app-cfg"               # name of the replica set for the config server (prefix of fqdn)
 replica_set_group_id:   "app-cfg-servers"       # group name for all servers in the replica set
-first_member:           false
 ```
 
 #### Shard Server:
@@ -40,7 +38,6 @@ mongodb_type:           "daemon"
 cluster_role:           "shardsvr"
 replica_set_name:       "app-shd00"             # name of the replica set for the shard server (prefix of fqdn)
 replica_set_group_id:   "app-shd00-servers"     # group name for all servers in the replica set
-first_member:           false
 ```
 
 Flags for which sections to run
@@ -81,6 +78,12 @@ MIT
 
 Paul Kehle  
 @pgkehle ([twitter](https://twitter.com/pgkehle), [github](https://github.com/pgkehle), [linkedin](https://www.linkedin.com/in/pgkehle))
+
+## For local development testing
+
+```bash
+rsync -av ~/code/ansible-mongodb/* ~/.ansible/roles/pgkehle.mongodb
+```
 
 ### References
 

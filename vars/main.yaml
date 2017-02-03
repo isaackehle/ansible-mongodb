@@ -4,8 +4,7 @@ mount_dir:        /mnt/data
 data_dir:         "{{ mount_dir }}/mongodb"
 srv_dir:          /srv/mongodb
 
-log_path_d:       /var/log/mongodb/mongod.log
-log_path_s:       /var/log/mongodb/mongos.log
+log_path:         /var/log/mongodb/mongodb.log
 
 keyfile_path:     /srv/mongodb/mongodb-keyfile
 
