@@ -61,13 +61,17 @@ db_create:      Do initial db creation
 
 #   NOTE: Supplying no tags is probably not what you want to do here 
   roles:
-    - { role: pgkehle.mongodb, tags: ['install']}
-    - { role: pgkehle.mongodb, tags: ['config_save']}
-    - { role: pgkehle.mongodb, tags: ['storage_init']}
-    - { role: pgkehle.mongodb, tags: ['rs_init']}
-    - { role: pgkehle.mongodb, tags: ['rs_shards']}
-    - { role: pgkehle.mongodb, tags: ['db_create']}
+    - { role: pgkehle.mongodb } 
       
+```
+
+```bash
+ansible-playbook myplaybook.yml -t install
+ansible-playbook myplaybook.yml -t config_save
+ansible-playbook myplaybook.yml -t storage_init
+ansible-playbook myplaybook.yml -t rs_init
+ansible-playbook myplaybook.yml -t rs_shards
+ansible-playbook myplaybook.yml -t db_create
 ```
 
 ## License
