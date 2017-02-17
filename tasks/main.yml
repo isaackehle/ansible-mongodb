@@ -4,20 +4,20 @@
     when: cluster_role is defined
 
   - include: install-packages.yml
-    when: pkg_install|bool == true
+    tags: ['install']
 
   - include: storage-init.yml
-    when: storage_init|bool == true
+    tags: ['storage_init']
 
   - include: config-save.yml
-    when: config_save|bool == true
+    tags: ['config_save']
 
   - include: replica-set-init.yml
-    when: rs_init|bool == true
+    tags: ['rs_init']
 
   - include: replica-set-shards.yml
-    when: rs_shards|bool == true
+    tags: ['rs_shards']
 
   - include: db-create.yml
-    when: db_create|bool == true
+    tags: ['db_create']
 

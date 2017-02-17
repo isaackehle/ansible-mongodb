@@ -19,13 +19,13 @@ Host Definitions typically contain the following:
 
 #### Query Server:
 
-```
+```yaml
 mongodb_type:           "shard"
 cluster_role:           "querysvr"
 ```
 
 #### Config Server:
-```
+```yaml
 mongodb_type:           "daemon"
 cluster_role:           "configsvr"
 replica_set_name:       "app-cfg"               # name of the replica set for the config server (prefix of fqdn)
@@ -33,16 +33,16 @@ replica_set_group_id:   "app-cfg-servers"       # group name for all servers in 
 ```
 
 #### Shard Server:
-```
+```yaml
 mongodb_type:           "daemon"
 cluster_role:           "shardsvr"
 replica_set_name:       "app-shd00"             # name of the replica set for the shard server (prefix of fqdn)
 replica_set_group_id:   "app-shd00-servers"     # group name for all servers in the replica set
 ```
 
-Flags for which sections to run
-```
-pkg_install:    Install mongo packages
+## Tags for which sections to run
+```yaml
+install:        Install mongo packages
 config_save:    Basic initialization.  Stop Services, push service/config files, restart services
 storage_init:   Clear directories and logs
 rs_init:        Initialize the replica set configuration
@@ -52,22 +52,22 @@ db_create:      Do initial db creation
 
 ## Examples
 
-```YAML
+```yaml
+- hosts: all
+  vars: 
 
-  - hosts: all
- 
-    vars: 
+    app_users:
+      - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
 
-      app_users:
-        - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
-
-    roles:
-      - { name: pgkehle.mongodb, pkg_install: true }
-      - { name: pgkehle.mongodb, config_save: true }
-      - { name: pgkehle.mongodb, storage_init: true }
-      - { name: pgkehle.mongodb, rs_init: true }
-      - { name: pgkehle.mongodb, rs_shards: true }
-      - { name: pgkehle.mongodb, db_create: true }
+#   NOTE: Supplying no tags is probably not what you want to do here 
+  roles:
+    - { role: pgkehle.mongodb, tags: ['install']}
+    - { role: pgkehle.mongodb, tags: ['config_save']}
+    - { role: pgkehle.mongodb, tags: ['storage_init']}
+    - { role: pgkehle.mongodb, tags: ['rs_init']}
+    - { role: pgkehle.mongodb, tags: ['rs_shards']}
+    - { role: pgkehle.mongodb, tags: ['db_create']}
+      
 ```
 
 ## License

@@ -1,12 +1,5 @@
 ---
 
-pkg_install:            false
-config_save:            false
-rs_init:                false
-storage_init:           false
-rs_shards:              false
-db_create:              false
-
 mongo_version:          "3.4"
 ppa_pubkey:             "A15703C6"
 
