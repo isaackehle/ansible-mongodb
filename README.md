@@ -40,14 +40,16 @@ replica_set_name:       "app-shd00"             # name of the replica set for th
 replica_set_group_id:   "app-shd00-servers"     # group name for all servers in the replica set
 ```
 
-## Tags for which sections to run
+## Flags and Variables
 ```yaml
-install:        Install mongo packages
-config_save:    Basic initialization.  Stop Services, push service/config files, restart services
-storage_init:   Clear directories and logs
-rs_init:        Initialize the replica set configuration
-rs_shards:      Add shard servers (replica sets) to the cluster
-db_create:      Do initial db creation
+vars:
+  flags:
+    - init:           # Install mongo packages
+    - config_save:    # Basic initialization.  Stop Services, push service/config files, restart services
+    - storage_init:   # Clear directories and logs
+    - rs_init:        # Initialize the replica set configuration
+    - rs_shards:      # Add shard servers (replica sets) to the cluster
+    - db_create:      # Do initial db creation
 ```
 
 ## Examples
@@ -59,19 +61,23 @@ db_create:      Do initial db creation
     app_users:
       - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
 
-#   NOTE: Supplying no tags is probably not what you want to do here 
   roles:
-    - { role: pgkehle.mongodb } 
+    - { role: pgkehle.mongodb, flags: ['init'] }        
+    - { role: pgkehle.mongodb, flags: ['config_save'] }        
+    - { role: pgkehle.mongodb, flags: ['storage_init'] }        
+    - { role: pgkehle.mongodb, flags: ['rs_init'] }        
+    - { role: pgkehle.mongodb, flags: ['rs_shards'] }        
+    - { role: pgkehle.mongodb, flags: ['db_create'] }        
       
 ```
 
 ```bash
-ansible-playbook myplaybook.yml -t install
-ansible-playbook myplaybook.yml -t config_save
-ansible-playbook myplaybook.yml -t storage_init
-ansible-playbook myplaybook.yml -t rs_init
-ansible-playbook myplaybook.yml -t rs_shards
-ansible-playbook myplaybook.yml -t db_create
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['init']}"
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['config_save']}"
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['storage_init']}"
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['rs_init']}"
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['rs_shards']}"
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['db_create']}"
 ```
 
 ## License

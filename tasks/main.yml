@@ -4,20 +4,20 @@
     when: cluster_role is defined
 
   - include: install-packages.yml
-    tags: ['install']
+    when: ((['init'] | intersect(flags)) | length > 0)
 
   - include: storage-init.yml
-    tags: ['storage_init']
+    when: ((['storage_init'] | intersect(flags)) | length > 0)
 
   - include: config-save.yml
-    tags: ['config_save']
+    when: ((['config_save'] | intersect(flags)) | length > 0)
 
   - include: replica-set-init.yml
-    tags: ['rs_init']
+    when: ((['rs_init'] | intersect(flags)) | length > 0)
 
   - include: replica-set-shards.yml
-    tags: ['rs_shards']
+    when: ((['rs_shards'] | intersect(flags)) | length > 0)
 
   - include: db-create.yml
-    tags: ['db_create']
+    when: ((['db_create'] | intersect(flags)) | length > 0)
 

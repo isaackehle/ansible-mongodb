@@ -1,5 +1,8 @@
 ---
 
+flags:
+  - none
+
 mongo_version:          "3.4"
 ppa_pubkey:             "A15703C6"
 
