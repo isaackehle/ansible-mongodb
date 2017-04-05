@@ -57,7 +57,6 @@ vars:
 ```yaml
 - hosts: all
   vars: 
-
     app_users:
       - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
 

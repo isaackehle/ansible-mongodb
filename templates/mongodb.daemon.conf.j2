@@ -55,8 +55,13 @@ net:
     CAFile: {{ sc_interm_remote }}
 {% endif %}
 
+{% if operation_profiling is defined %}
+operationProfiling:
+  slowOpThresholdMs: {{ operation_profiling.threshold }}
+  mode: {{ operation_profiling.mode }}
+{% endif %}
+
 #processManagement:
-#operationProfiling:
 ## Enterprise-Only Options:
 #auditLog:
 #snmp:

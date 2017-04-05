@@ -1,23 +1,27 @@
 ---
 
-  - include: prep-vars.yml
-    when: cluster_role is defined
+- debug: var=flags
+  run_once: true
+  tags: ['always']
 
-  - include: install-packages.yml
-    when: ((['init'] | intersect(flags)) | length > 0)
+- include: prep-vars.yml
+  when: cluster_role is defined
 
-  - include: storage-init.yml
-    when: ((['storage_init'] | intersect(flags)) | length > 0)
+- include: install-packages.yml
+  when: ((['init'] | intersect(flags)) | length > 0)
 
-  - include: config-save.yml
-    when: ((['config_save'] | intersect(flags)) | length > 0)
+- include: storage-init.yml
+  when: ((['storage_init'] | intersect(flags)) | length > 0)
 
-  - include: replica-set-init.yml
-    when: ((['rs_init'] | intersect(flags)) | length > 0)
+- include: config-save.yml
+  when: ((['config_save'] | intersect(flags)) | length > 0)
 
-  - include: replica-set-shards.yml
-    when: ((['rs_shards'] | intersect(flags)) | length > 0)
+- include: replica-set-init.yml
+  when: ((['rs_init'] | intersect(flags)) | length > 0)
 
-  - include: db-create.yml
-    when: ((['db_create'] | intersect(flags)) | length > 0)
+- include: replica-set-shards.yml
+  when: ((['rs_shards'] | intersect(flags)) | length > 0)
+
+- include: db-create.yml
+  when: ((['db_create'] | intersect(flags)) | length > 0)
 

@@ -44,9 +44,11 @@ net:
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}
 
+operationProfiling:
+  slowOpThresholdMs: 100
+  mode: off
 
 #processManagement:
-#operationProfiling:
 ## Enterprise-Only Options:
 #auditLog:
 #snmp:
