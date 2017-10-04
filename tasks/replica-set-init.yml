@@ -1,14 +1,14 @@
 ---
 
 - name: Stop services
-  include: service-stop.yml
+  include_tasks: service-stop.yml
 
 - name: Upload replica_set_init config file
   become: true
   template: src=../templates/mongodb.daemon.conf.rsInit.j2 dest=/etc/mongodb.conf owner=root group=root mode="u=rw,g=r,o=r"
 
 - name: Start the appropriate services
-  include: service-start.yml
+  include_tasks: service-start.yml
 
 - pause: seconds=5
 

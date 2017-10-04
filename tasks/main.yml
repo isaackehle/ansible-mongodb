@@ -4,24 +4,24 @@
   run_once: true
   tags: ['always']
 
-- include: prep-vars.yml
+- include_tasks: prep-vars.yml
   when: cluster_role is defined
 
-- include: install-packages.yml
+- include_tasks: install-packages.yml
   when: ((['init'] | intersect(flags)) | length > 0)
 
-- include: storage-init.yml
+- include_tasks: storage-init.yml
   when: ((['storage_init'] | intersect(flags)) | length > 0)
 
-- include: config-save.yml
+- include_tasks: config-save.yml
   when: ((['config_save'] | intersect(flags)) | length > 0)
 
-- include: replica-set-init.yml
+- include_tasks: replica-set-init.yml
   when: ((['rs_init'] | intersect(flags)) | length > 0)
 
-- include: replica-set-shards.yml
+- include_tasks: replica-set-shards.yml
   when: ((['rs_shards'] | intersect(flags)) | length > 0)
 
-- include: db-create.yml
+- include_tasks: db-create.yml
   when: ((['db_create'] | intersect(flags)) | length > 0)
 

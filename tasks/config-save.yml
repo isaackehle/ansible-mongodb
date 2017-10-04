@@ -3,7 +3,7 @@
 #  - debug: var=operation_profiling
 
   - name: Stop services
-    include: service-stop.yml
+    include_tasks: service-stop.yml
 
   - name: Remove all mongo config files
     become: true
@@ -44,4 +44,4 @@
     service: name=mongodb enabled=yes
 
   - name: Start the appropriate services
-    include: service-start.yml
+    include_tasks: service-start.yml

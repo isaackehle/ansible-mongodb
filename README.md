@@ -1,4 +1,4 @@
-# Ansible: mongodb
+# Ansible Role - mongodb
 
 Configure the components of a MongoDB Cluster
 
@@ -91,7 +91,7 @@ Paul Kehle
 ## For local development testing
 
 ```bash
-rsync -av ~/code/ansible-mongodb/* ~/.ansible/roles/pgkehle.mongodb
+rsync -av --delete ~/code/ansible-mongodb/* ~/.ansible/roles/pgkehle.mongodb
 ```
 
 ### References
