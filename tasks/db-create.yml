@@ -1,7 +1,7 @@
 ---
 
 #  - debug: var=app_users
-#  - debug: var=admin_password
+#  - debug: var=admin.password
 
   - debug: var=app_users
 

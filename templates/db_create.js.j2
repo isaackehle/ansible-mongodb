@@ -1,4 +1,4 @@
-db.getSiblingDB("{{ auth_db }}").auth("{{ admin_user }}", "{{ admin_password }}");
+db.getSiblingDB("{{ auth_db }}").auth("{{ admin.user }}", "{{ admin.password }}");
 
 // var names = db.getMongo().getDBNames();
 // db.getSiblingDB("config").databases.find();

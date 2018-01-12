@@ -1,4 +1,4 @@
-db.getSiblingDB("{{ auth_db }}").auth("{{ admin_user }}", "{{ admin_password }}" )
+db.getSiblingDB("{{ auth_db }}").auth("{{ admin.user }}", "{{ admin.password }}" )
 
 {% for hn in groups['app-shard-servers']  %}
 {% if 'rs0' in hostvars[ hn ].server_fqdn %}

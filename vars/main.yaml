@@ -16,3 +16,10 @@ ports:
   shardsvr:       27018
   configsvr:      27019
   querysvr:       27017
+
+
+versions:
+  ppa_pubkey:
+    3.6:          "2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5"
+    3.4:          "A15703C6"
+    3.2:          "EA312927"

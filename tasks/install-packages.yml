@@ -8,7 +8,7 @@
       lsb_release: "{{ lsb_release_out.stdout }}"
 
   - name: Add APT Key
-    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv {{ ppa_pubkey }}
+    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv {{ versions.ppa_pubkey[mongo_version] }}
     become: true
 
   - name: Save List

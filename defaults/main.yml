@@ -3,14 +3,12 @@
 flags:
   - none
 
-mongo_version:          "3.4"
-ppa_pubkey:             "A15703C6"
+mongo_version:          "3.6"
 
-#mongo_version:          "3.2"
-#ppa_pubkey:             "EA312927"
+admin:
+  user:                 "admin"
+  password:             ""
 
-admin_password:         ""
-admin_user:             "admin"
 auth_db:                "admin"
 
 sc_common_name:         ""
