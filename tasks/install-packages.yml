@@ -7,6 +7,9 @@
   - set_fact:
       lsb_release: "{{ lsb_release_out.stdout }}"
 
+#  - debug: var=mongo_version
+#  - debug: var=versions.ppa_pubkey
+
   - name: Add APT Key
     command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv {{ versions.ppa_pubkey[mongo_version] }}
     become: true
@@ -43,4 +46,14 @@
 #    raw: apt -y full-upgrade
     apt:
       upgrade: dist
+
+  - name: Stop services
+    include_tasks: service-stop.yml
+
+  - name: kill logs
+    include_tasks: kill-logs.yml
+
+  - name: Start services
+    include_tasks: service-start.yml
+
 

@@ -1,0 +1,9 @@
+---
+
+  - name: Kill logs
+    become: true
+    file: path={{ item }} state=absent  # state=empty
+    with_items:
+      - "{{ log_path }}/mongodb.log"
+      - "{{ log_path }}/mongod.log"
+      - "{{ log_path }}/mongos.log"

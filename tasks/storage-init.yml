@@ -3,11 +3,8 @@
 #  - stat: path={{ srv_dir }}
 #    register: stat_db
 
-  - name: Kill logs
-    become: true
-    file: path={{ item }} state=absent  # state=empty
-    with_items:
-      - "{{ log_path }}"
+  - name: kill logs
+    include_tasks: kill-logs.yml
 
   - name: Status of data directory
     stat: path={{ mount_dir }}
