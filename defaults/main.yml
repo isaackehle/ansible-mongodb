@@ -3,7 +3,7 @@
 flags:
   - none
 
-mongo_version:          "3.6"
+mongo_version:          "4.0"
 
 admin:
   user:                 "admin"

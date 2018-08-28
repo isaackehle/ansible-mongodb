@@ -21,6 +21,7 @@ ports:
 
 versions:
   ppa_pubkey:
+    "4.0":        "9DA31620334BD75D9DCB49F368818C72E52529D4"
     "3.6":        "2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5"
     "3.4":        "A15703C6"
     "3.2":        "EA312927"
