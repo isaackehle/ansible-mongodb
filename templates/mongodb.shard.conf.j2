@@ -3,15 +3,6 @@
 # for documentation of all options, see:
 #   http://docs.mongodb.org/manual/reference/configuration-options/
 
-# Where and how to store data.
-#storage:
-#  dbPath: {{ srv_dir }}
-#  journal:
-#    enabled: true
-#  engine:
-#  mmapv1:
-#  wiredTiger:
-
 # where to write logging data.
 systemLog:
   destination: file
@@ -24,8 +15,6 @@ systemLog:
 sharding:
   configDB: {{ config_db }}
 {% endif %}
-
-#processManagement:
 
 security:
    clusterAuthMode: x509
@@ -41,11 +30,3 @@ net:
     PEMKeyFile: {{ sc_chain_remote }}
     clusterFile: {{ sc_chain_remote }}
     CAFile: {{ sc_interm_remote }}
-
-#operationProfiling:
-
-## Enterprise-Only Options:
-
-#auditLog:
-
-#snmp:
