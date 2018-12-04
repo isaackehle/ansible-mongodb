@@ -8,8 +8,8 @@ Available on Ansible Galaxy: [pgkehle.mongodb](https://galaxy.ansible.com/pgkehl
 
 Required definitions are as follows:
 
-```
-cfg_server_name:        "app-cfg"           # (Required)   
+```bash
+cfg_server_name:        "app-cfg"           # (Required)
 cfg_server_group_id:    "app-cfg-servers"   # (Required) Always pass in the group id used for the config servers 
 replica_set_group_id:   "app-shd00-servers" # (Optional) If initializing a replica set as part of a MongoDB cluster
 
@@ -17,14 +17,15 @@ replica_set_group_id:   "app-shd00-servers" # (Optional) If initializing a repli
 
 Host Definitions typically contain the following:
 
-#### Query Server:
+### Query Server
 
 ```yaml
 mongodb_type:           "shard"
 cluster_role:           "querysvr"
 ```
 
-#### Config Server:
+### Config Server
+
 ```yaml
 mongodb_type:           "daemon"
 cluster_role:           "configsvr"
@@ -32,7 +33,8 @@ replica_set_name:       "app-cfg"               # name of the replica set for th
 replica_set_group_id:   "app-cfg-servers"       # group name for all servers in the replica set
 ```
 
-#### Shard Server:
+### Shard Server
+
 ```yaml
 mongodb_type:           "daemon"
 cluster_role:           "shardsvr"
@@ -41,6 +43,7 @@ replica_set_group_id:   "app-shd00-servers"     # group name for all servers in 
 ```
 
 ## Flags and Variables
+
 ```yaml
 vars:
   flags:
@@ -56,18 +59,17 @@ vars:
 
 ```yaml
 - hosts: all
-  vars: 
+  vars:
     app_users:
-      - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] } 
+      - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] }
 
   roles:
-    - { role: pgkehle.mongodb, flags: ['init'] }        
-    - { role: pgkehle.mongodb, flags: ['config_save'] }        
-    - { role: pgkehle.mongodb, flags: ['storage_init'] }        
-    - { role: pgkehle.mongodb, flags: ['rs_init'] }        
-    - { role: pgkehle.mongodb, flags: ['rs_shards'] }        
-    - { role: pgkehle.mongodb, flags: ['db_create'] }        
-      
+    - { role: pgkehle.mongodb, flags: ['init'] }
+    - { role: pgkehle.mongodb, flags: ['config_save'] }
+    - { role: pgkehle.mongodb, flags: ['storage_init'] }
+    - { role: pgkehle.mongodb, flags: ['rs_init'] }
+    - { role: pgkehle.mongodb, flags: ['rs_shards'] }
+    - { role: pgkehle.mongodb, flags: ['db_create'] }
 ```
 
 ```bash
@@ -87,12 +89,6 @@ MIT
 
 Paul Kehle  
 @pgkehle ([twitter](https://twitter.com/pgkehle), [github](https://github.com/pgkehle), [linkedin](https://www.linkedin.com/in/pgkehle))
-
-## For local development testing
-
-```bash
-rsync -av --delete ~/code/ansible-mongodb/* ~/.ansible/roles/pgkehle.mongodb
-```
 
 ### References
 
