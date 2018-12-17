@@ -1,7 +1,0 @@
-db.getSiblingDB("{{ auth_db }}").auth("{{ admin.user }}", "{{ admin.password }}" )
-
-{% for hn in groups['app-shard-servers']  %}
-{% if 'rs0' in hostvars[ hn ].server_fqdn %}
-sh.addShard( "{{ hostvars[ hn ].replica_set_name}}/{{hostvars[ hn ].server_fqdn}}:{{ ports.shardsvr }}")
-{% endif %}
-{% endfor %}

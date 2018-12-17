@@ -1,35 +1,28 @@
 ---
 
-  - name: Set the rs group name from cfg_server_name
-    set_fact:
-      rs_server_group_id: "{{ cfg_server_group_id }}"
-    when:
-      - cfg_server_group_id is defined
+  - name: Set the rs group name from cfg_server
+    set_fact: 
+      rs_server_group_id: '{{ cfg_server.group }}'
+    when: cfg_server is defined and cfg_server.group is defined
 
-  - name: Set the rs group name from replica_set_name
-    set_fact:
-      rs_server_group_id: "{{ replica_set_group_id }}"
-    when:
-      - replica_set_group_id is defined
+  - name: Set the rs group name from replica_set
+    set_fact: 
+      rs_server_group_id: '{{ replica_set.group }}'
+    when: replica_set is defined and replica_set.group is defined
 
-  - debug: var=rs_server_group_id
+  - name: Set the initial rs server group
+    set_fact: 
+      rs_server_group: '{{ groups[rs_server_group_id] }}'
+  
+  - name: Set the rs_servers variable
+    set_fact: 
+      rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].server_fqdn }}:{{ ports.config }}']"
+    with_items: "{{ rs_server_group }}"
 
-  - name: Set the replicaSet group
-    set_fact:
-      rs_server_group: "{{ groups[rs_server_group_id] }}"
+  - name: Set config_db variable
+    set_fact: 
+      config_db: "{{ cfg_server.name }}/{{ rs_servers|join(',') }}"
 
-  - name: loop through rs_server_group
-    set_fact:
-      rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].server_fqdn }}:{{ ports.configsvr }}']"
-    with_items:
-      - "{{ rs_server_group }}"
-
-  - name: set config_db variable
-    set_fact:
-      config_db: "{{ cfg_server_name }}/{{ rs_servers | join(',') }}"
-
-  - name: set rs_port
-    set_fact:
+  - name: Set rs_port
+    set_fact: 
       rs_port: "{{ ports[cluster_role] }}"
-
-  - debug: var=rs_port

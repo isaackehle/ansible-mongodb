@@ -1,0 +1,95 @@
+# Configuration Options: https://docs.mongodb.org/manual/reference/configuration-options/
+# Log Messages/Components: https://docs.mongodb.com/manual/reference/log-messages/index.html
+
+systemLog:
+  destination: file
+  logAppend: true
+  path: {{ log_file }}
+  verbosity: 0
+  component:
+    control:
+      verbosity: 0
+    command:
+      verbosity: 0
+    sharding:
+      verbosity: 0
+    ftdc:
+      verbosity: 0
+    replication:
+      verbosity: 0
+    network:
+      verbosity: 0
+    query:
+      verbosity: 0
+    storage:
+      verbosity: 0
+      journal:
+        verbosity: 0
+
+{% if cluster_role == 'shard' or cluster_role == 'config' %}
+# Where and how to store data.
+storage:
+  dbPath: {{ srv_dir }}
+  journal:
+    enabled: true
+{% endif %}
+
+{% if replica_set is defined and replica_set.name is defined %}
+replication:
+  replSetName: {{ replica_set.name }}
+{% endif %}
+
+{% if cluster_role is defined %}
+sharding:
+{% if cluster_role == 'shard' %}
+  clusterRole: shardsvr
+{% endif %}
+{% if cluster_role == 'config' %}
+  clusterRole: configsvr
+{% endif %}
+{% if cluster_role == 'router' and config_db %}
+  configDB: {{ config_db }}
+{% endif %}
+{% endif %}
+
+{% if configuring_replica_set is not defined or configuring_replica_set == false %}
+security:
+{% if mongodb_security is defined %}
+{% if mongodb_security == 'keyfile' %}
+  authorization: enabled
+  keyFile: {{ keyfile_path }}
+{% endif %}
+{% if mongodb_security == 'x509' %}
+  clusterAuthMode: x509
+{% endif %}
+{% endif %}
+{% endif %}
+
+# network interfaces
+net:
+  port: {{ rs_port }}
+{% if mongodb_security == 'keyfile' %}
+  bindIp: 127.0.0.1,{{ inventory_hostname }}
+{% endif %}
+{% if mongodb_security == 'x509' %}
+  bindIp: 0.0.0.0
+  # bindIp: 127.0.0.1,{{ inventory_hostname }}
+  ssl:
+{% if configuring_replica_set is not defined or configuring_replica_set == false %}
+    mode: requireSSL
+{% else %}
+    mode: allowSSL
+{% endif %}
+    disabledProtocols: "TLS1_0,TLS1_1"
+    PEMKeyFile: {{ cert_path.chain.remote }}
+    clusterFile: {{ cert_path.chain.remote }}
+    CAFile: {{ cert_path.intermediate.remote }}
+{% endif %}
+
+{% if cluster_role == 'config' or cluster_role == 'shard' %}
+{% if operation_profiling is defined %}
+operationProfiling:
+  slowOpThresholdMs: {{ operation_profiling.threshold }}
+  mode: {{ operation_profiling.mode }}
+{% endif %}
+{% endif %}

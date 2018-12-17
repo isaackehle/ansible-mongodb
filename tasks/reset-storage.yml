@@ -4,29 +4,50 @@
     include_tasks: kill-logs.yml
 
   - name: Status of data directory
-    stat: path={{ mount_dir }}
+    stat: 
+      path: '{{ mount_dir }}'
     register: stat_mnt
 
   - name: Delete srv directory
-    file: path={{ srv_dir }} state=absent
+    file: 
+      path: '{{ srv_dir }} '
+      state: absent
     become: true
 
   - name: Delete mounted directory
-    file: path={{ data_dir }} state=absent
+    file: 
+      path: '{{ data_dir }}' 
+      state: absent
     become: true
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir
 
   - name: Create db dir, basic
-    file: path={{ data_dir }} state=directory mode=755 owner=mongodb group=mongodb
+    file: 
+      path: '{{ data_dir }}' 
+      state: directory 
+      owner: mongodb 
+      group: mongodb
+      mode: '0755' 
     when: stat_mnt.stat.isdir is not defined or stat_mnt.stat.isdir == false
     become: true
 
   - name: Create db dir, mounted
-    file: path={{ data_dir }} state=directory mode=755 owner=mongodb group=mongodb
+    file: 
+      path: '{{ data_dir }}' 
+      state: directory 
+      owner: mongodb 
+      group: mongodb
+      mode: '0755' 
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir == true
     become: true
 
   - name: Create link, if needed
-    file: src={{ data_dir }} dest={{ srv_dir }} state=link mode=755 owner=mongodb group=mongodb
+    file: 
+      src: '{{ data_dir }}'
+      dest: '{{ srv_dir }}' 
+      state: link 
+      owner: mongodb 
+      group: mongodb
+      mode: '0755' 
     when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir|bool == true
     become: true

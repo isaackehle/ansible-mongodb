@@ -1,0 +1,31 @@
+[Unit]
+Description=High-performance, schema-free document-oriented database
+After=network.target
+Documentation=https://docs.mongodb.org/manual
+
+[Service]
+User=mongodb
+Group=mongodb
+{% if cluster_role == 'shard' or cluster_role == 'config' %}
+ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
+
+# Recommended limits for for mongod as specified in
+# https://docs.mongodb.com/manual/reference/ulimit/#recommended-ulimit-settings
+# (file size)
+LimitFSIZE=infinity
+# (cpu time)
+LimitCPU=infinity
+# (virtual memory size)
+LimitAS=infinity
+# (locked-in-memory size)
+LimitMEMLOCK=infinity
+# (open files)
+LimitNOFILE=64000
+# (processes/threads)
+LimitNPROC=64000
+{% elif cluster_role == 'router' %}
+ExecStart=/usr/bin/mongos --quiet --config /etc/mongod.conf
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target

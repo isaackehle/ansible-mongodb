@@ -11,10 +11,21 @@ admin:
 
 auth_db:                "admin"
 
-sc_common_name:         ""
-sc_deploy_path:         "/etc/ssl/{{ sc_common_name }}"
-sc_csr_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.csr"
-sc_key_remote:          "{{ sc_deploy_path }}/{{ sc_common_name }}.key"
-sc_cert_remote:         "{{ sc_deploy_path }}/{{ sc_common_name }}.cert.pem"
-sc_chain_remote:        "{{ sc_deploy_path }}/{{ sc_common_name }}.chain.pem"
-sc_interm_remote:       "{{ sc_deploy_path }}/{{ sc_common_name }}.intermediate.pem"
+cert_path:
+  csr:
+    remote:     ""
+    local:      ""
+  key:
+    remote:     ""
+    local:      ""
+  cert:
+    remote:     ""
+    local:      ""
+  chain:
+    remote:     ""
+    local:      ""
+  intermediate:
+    remote:     ""
+    local:      ""
+  dhparam:     
+    remote:     """

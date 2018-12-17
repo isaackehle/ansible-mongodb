@@ -4,29 +4,41 @@
   # Disable any mongo services
   #
 
-  - stat: path=/etc/systemd/system/mongodb.service
+  - name: stat for mongodb
+    stat: 
+      path: /etc/systemd/system/mongodb.service
     register: stat_db
 
-  - stat: path=/etc/systemd/system/mongod.service
+  - name: stat for mongod
+    stat: 
+      path: /etc/systemd/system/mongod.service
     register: stat_d
 
-  - stat: path=/etc/systemd/system/mongos.service
+  - name: stat for mongos
+    stat: 
+      path: /etc/systemd/system/mongos.service
     register: stat_s
 
   - name: Stop the daemon service
     become: true
-    service: name=mongodb state=stopped
+    service: 
+      name: mongod 
+      state: stopped
     when:
       - stat_db.stat.exists
 
   - name: Stop the daemon service
     become: true
-    service: name=mongod state=stopped
+    service: 
+      name: mongod 
+      state: stopped
     when:
       - stat_d.stat.exists
 
   - name: Stop the shard service
     become: true
-    service: name=mongos state=stopped
+    service: 
+      name: mongos 
+      state: stopped
     when:
       - stat_s.stat.exists
