@@ -1,8 +1,5 @@
 ---
 
-#  - stat: path={{ srv_dir }}
-#    register: stat_db
-
   - name: kill logs
     include_tasks: kill-logs.yml
 
