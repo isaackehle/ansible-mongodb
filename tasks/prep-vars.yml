@@ -26,7 +26,7 @@
 
   - name: set config_db variable
     set_fact:
-      config_db: "{{ cfg_server_name }}/{{ rs_servers|join(',') }}"
+      config_db: "{{ cfg_server_name }}/{{ rs_servers | join(',') }}"
 
   - name: set rs_port
     set_fact:
