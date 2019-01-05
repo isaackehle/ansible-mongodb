@@ -1,0 +1,46 @@
+---
+
+  - name: Stop services
+    include_tasks: service-stop.yml
+
+  - name: Remove all mongo config files
+    become: true
+    file: 
+      dest: '{{ item.dest }}'
+      state: absent
+    with_items:
+      - { dest: /lib/systemd/system/mongodb.service }
+      - { dest: /lib/systemd/system/mongod.service }
+      - { dest: /lib/systemd/system/mongos.service }
+      - { dest: /etc/systemd/system/mongodb.service }
+      - { dest: /etc/systemd/system/mongod.service }
+      - { dest: /etc/systemd/system/mongos.service }
+      - { dest: /etc/mongodb.conf }
+      - { dest: /etc/mongod.conf }
+      - { dest: /etc/mongos.conf }
+
+  - name: Put daemon or standalone mongo settings into place
+    become: true
+    template: 
+      src: '{{ item.src }}'
+      dest: '{{ item.dest }}' 
+      # owner: root 
+      # group: root 
+      # mode: "u=rw,g=r,o=r"
+    with_items:
+      - { src: ../templates/mongod.service.j2, dest: /etc/systemd/system/mongod.service }
+      - { src: ../templates/mongod.conf.j2, dest: /etc/mongod.conf }
+
+  - name: Reload the systemd daemon
+    systemd:
+      daemon_reload: yes
+    become: true
+
+  - name: Enable mongodb service
+    become: true
+    service: 
+      name: mongod 
+      enabled: true
+
+  - name: Start the appropriate services
+    include_tasks: service-start.yml

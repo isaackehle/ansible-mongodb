@@ -4,18 +4,42 @@
     command: lsb_release -sc
     register: lsb_release_out
 
-  - set_fact:
-      lsb_release: "{{ lsb_release_out.stdout }}"
+  - name: Update APT Cache
+    become: true
+    apt:
+      update_cache: yes
 
-#  - debug: var=mongo_version
-#  - debug: var=versions.ppa_pubkey
+  - name: Update APT Cache
+    become: true
+    apt:
+      update_cache: yes
 
-  - name: Add APT Key
-    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv {{ versions.ppa_pubkey[mongo_version] }}
+  - name: Install required packages
+    apt:
+      name: 
+        - build-essential
+        - gpg
+      state: present
     become: true
 
+  - name: Variables
+    set_fact: 
+      lsb_release: '{{ lsb_release_out.stdout }}'
+      mongo_cfg: '{{ mongo_configs[mongo_version] }}'
+
   - name: Save List
-    template: src=../templates/mongodb.list.j2 dest=/etc/apt/sources.list.d/mongodb.list owner=root group=root mode="u=rw,g=r,o=r"
+    template: 
+      src: ../templates/mongod.list.j2 
+      dest: /etc/apt/sources.list.d/mongod.list 
+      owner: root 
+      group: root 
+      mode: "u=rw,g=r,o=r"
+    become: true
+
+  - name: Add an apt key by id from a keyserver
+    apt_key:
+      url: https://www.mongodb.org/static/pgp/server-4.0.asc
+      state: present
     become: true
 
   - name: Update APT Cache
@@ -35,11 +59,10 @@
       name: mongodb-org
       state: present
 
-  - name: Autoremove unused
+  - name: Autoremove unused packages
+    apt:
+      autoremove: yes
     become: true
-    raw: sudo apt -y autoremove
-#      apt:
-#        autoremove: yes
 
   - name: Full Upgrade
     become: true

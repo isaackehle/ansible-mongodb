@@ -1,5 +1,5 @@
-var config = {
-    _id: "{{ replica_set_name }}",
+var opt = {
+    _id: "{{ replica_set.name }}",
     version: 1,
     protocolVersion: 1,
     members: [],
@@ -13,25 +13,25 @@ var config = {
     }
 };
 
-{% if cluster_role == 'configsvr' %}
+{% if cluster_role == 'config' %}
 // Set this to specify the replica set is a config server
-config.configsvr = true;
+opt.configsvr = true;
 {% endif %}
 
-{% if cluster_role == 'shardsvr' %}
-// Set this to specify the replica set is a config server
+{% if cluster_role == 'shard' %}
+// Set this to specify the replica set is a shard server
 {% endif %}
 
 {% for hn in rs_server_group %}
-config.members.push({_id: {{loop.index0}}, host: '{{ hostvars[ hn ].server_fqdn }}:{{ rs_port }}'});
+opt.members.push({_id: {{ loop.index0 }}, host: '{{ hostvars[ hn ].server_fqdn }}:{{ rs_port }}'});
 {% endfor %}
 
-rs.initiate(config);
+rs.initiate(opt);
 
 {% if admin.password != "" %}
 // Create the user administrator and cluster administrator
 db.getSiblingDB("{{ auth_db }}").createUser({
-    user: "{{ admin.user }}",
+    user: "{{ admin.username }}",
     pwd: "{{ admin.password }}",
     roles: [
         { role: "root", db: "{{ auth_db }}"},

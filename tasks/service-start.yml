@@ -1,6 +1,4 @@
 ---
-  - debug: var=mongodb_type
-
   - name: Start mongodb service
     become: true
-    service: name=mongodb state=started
+    service: name=mongod state=started

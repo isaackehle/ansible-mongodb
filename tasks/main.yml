@@ -1,34 +1,29 @@
 ---
 
-- debug: var=flags
-  run_once: true
-  tags: ['always']
-
 - name: Prepare Variables
   include_tasks: prep-vars.yml
   when: cluster_role is defined
 
 - name: Install Packages
   include_tasks: install-packages.yml
-  when: ((['init'] | intersect(flags)) | length > 0)
+  when: ((['install'] | intersect(flags)) | length > 0)
 
-- name: Init Storage
-  include_tasks: storage-init.yml
-  when: ((['storage_init'] | intersect(flags)) | length > 0)
+- name: Reset Storage
+  include_tasks: reset-storage.yml
+  when: ((['reset-storage'] | intersect(flags)) | length > 0)
 
 - name: Save Configuration
-  include_tasks: config-save.yml
-  when: ((['config_save'] | intersect(flags)) | length > 0)
+  include_tasks: save-configuration.yml
+  when: ((['save-config'] | intersect(flags)) | length > 0)
 
 - name: Init Replica Set
-  include_tasks: replica-set-init.yml
-  when: ((['rs_init'] | intersect(flags)) | length > 0)
+  include_tasks: init-replica-set.yml
+  when: ((['init-replica-set'] | intersect(flags)) | length > 0)
 
-- name: Shard Replica Set
-  include_tasks: replica-set-shards.yml
-  when: ((['rs_shards'] | intersect(flags)) | length > 0)
+- name: Add Replica Set to Cluster
+  include_tasks: add-replica-set.yml
+  when: ((['add-replica-set'] | intersect(flags)) | length > 0)
 
 - name: Create Database
   include_tasks: db-create.yml
   when: ((['db_create'] | intersect(flags)) | length > 0)
-

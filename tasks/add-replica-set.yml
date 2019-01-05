@@ -1,0 +1,22 @@
+---
+
+- name: Save the add-replica-set script
+  template: 
+    src: ../templates/add-replica-set.js.j2 
+    dest: /tmp/add-replica-set.js
+  run_once: true
+
+- name: Run the add-replica-set script
+  shell: >
+    mongo
+    --host {{ server_fqdn }}
+    --port {{ rs_port }}
+    --ssl
+    --sslPEMKeyFile {{ cert_path.chain.remote }}
+    --sslCAFile {{ cert_path.intermediate.remote }}
+    < /tmp/add-replica-set.js
+  run_once: true
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
