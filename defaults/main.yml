@@ -29,4 +29,3 @@ cert_path:
     local:      ""
   dhparam:     
     remote:     ""
-    

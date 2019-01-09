@@ -21,8 +21,8 @@
   when: ((['init-replica-set'] | intersect(flags)) | length > 0)
 
 - name: Add Replica Set to Cluster
-  include_tasks: add-replica-set.yml
-  when: ((['add-replica-set'] | intersect(flags)) | length > 0)
+  include_tasks: add-shard-to-cluster.yml
+  when: ((['add-shard-to-cluster'] | intersect(flags)) | length > 0)
 
 - name: Create Database
   include_tasks: db-create.yml

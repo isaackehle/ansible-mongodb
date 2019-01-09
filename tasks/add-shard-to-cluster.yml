@@ -1,12 +1,12 @@
 ---
 
-- name: Save the add-replica-set script
+- name: Save the add-shard-to-cluster script
   template: 
-    src: ../templates/add-replica-set.js.j2 
-    dest: /tmp/add-replica-set.js
+    src: ../templates/add-shard-to-cluster.js.j2 
+    dest: /tmp/add-shard-to-cluster.js
   run_once: true
 
-- name: Run the add-replica-set script
+- name: Run the add-shard-to-cluster script
   shell: >
     mongo
     --host {{ server_fqdn }}
@@ -14,8 +14,9 @@
     --ssl
     --sslPEMKeyFile {{ cert_path.chain.remote }}
     --sslCAFile {{ cert_path.intermediate.remote }}
-    < /tmp/add-replica-set.js
+    < /tmp/add-shard-to-cluster.js
   run_once: true
+  become: true
   register: result
   until: result.rc == 0
   retries: 5

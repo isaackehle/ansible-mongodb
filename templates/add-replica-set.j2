@@ -1,3 +1,0 @@
-db.getSiblingDB("{{ auth_db }}").auth("{{ admin.user }}", "{{ admin.password }}" )
-
-sh.addShard( "{{ new_replica_set.name }}/{{ new_replica_set.server }}:{{ ports.shardsvr }}")

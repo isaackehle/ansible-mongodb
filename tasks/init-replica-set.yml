@@ -30,7 +30,7 @@
   run_once: true
 
 - name: Run the init-replica-set script
-  shell: mongo --port {{ rs_port }} < /tmp/repliinit_replica_seta_set_init.js
+  shell: mongo --port {{ rs_port }} < /tmp/init-replica-set.js
   run_once: true
   register: res_rsi
   until: res_rsi.rc == 0
