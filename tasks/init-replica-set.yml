@@ -1,32 +1,31 @@
 ---
-
 - name: Stop services
   include_tasks: service-stop.yml
 
 - name: Configuring the replica set
-  set_fact: 
-    configuring_replica_set: true
+  set_fact:
+      configuring_replica_set: true
 
 - name: Upload init-replica-set config file
   become: true
-  template: 
-    src: ../templates/mongod.conf.j2 
-    dest: /etc/mongod.conf 
-    owner: root 
-    group: root 
-    mode: "u=rw,g=r,o=r"
+  template:
+      src: ../templates/mongod.conf.j2
+      dest: /etc/mongod.conf
+      owner: root
+      group: root
+      mode: "u=rw,g=r,o=r"
 
 - name: Start the appropriate services
   include_tasks: service-start.yml
 
 - name: Delay
-  pause: 
-    seconds: 5
+  pause:
+      seconds: 5
 
 - name: Save the init-replica-set template
-  template: 
-    src: ../templates/init-replica-set.js.j2 
-    dest: /tmp/init-replica-set.js
+  template:
+      src: ../templates/init-replica-set.js.j2
+      dest: /tmp/init-replica-set.js
   run_once: true
 
 - name: Run the init-replica-set script
@@ -38,31 +37,31 @@
   delay: 5
 
 - name: Kill the init-replica-set script
-  file: 
-    dest: /tmp/init-replica-set.js 
-    state: absent
+  file:
+      dest: /tmp/init-replica-set.js
+      state: absent
 
 - name: Stop the daemon service
   become: true
-  service: 
-    name: mongod 
-    state: stopped
+  service:
+      name: mongod
+      state: stopped
 
 - name: No longer configuring the replica set
-  set_fact: 
-    configuring_replica_set: false
+  set_fact:
+      configuring_replica_set: false
 
 - name: Restore the mongodb configuration
   become: true
-  template: 
-    src: ../templates/mongod.conf.j2 
-    dest: /etc/mongod.conf 
-    owner: root 
-    group: root 
-    mode: "u=rw,g=r,o=r"
+  template:
+      src: ../templates/mongod.conf.j2
+      dest: /etc/mongod.conf
+      owner: root
+      group: root
+      mode: "u=rw,g=r,o=r"
 
 - name: Restart the daemon service
   become: true
-  service: 
-    name: mongod 
-    state: started
+  service:
+      name: mongod
+      state: started

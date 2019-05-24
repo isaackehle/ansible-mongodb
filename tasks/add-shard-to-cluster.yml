@@ -1,8 +1,7 @@
 ---
-
 - name: Save the add-shard-to-cluster script
-  template: 
-    src: ../templates/add-shard-to-cluster.js.j2 
+  template:
+    src: ../templates/add-shard-to-cluster.js.j2
     dest: /tmp/add-shard-to-cluster.js
   run_once: true
 

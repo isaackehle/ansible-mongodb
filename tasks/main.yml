@@ -1,5 +1,4 @@
 ---
-
 - name: Prepare Variables
   include_tasks: prep-vars.yml
   when: cluster_role is defined
