@@ -38,7 +38,7 @@
       owner: mongodb 
       group: mongodb
       mode: '0755' 
-    when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir == true
+    when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir
     become: true
 
   - name: Create link, if needed
@@ -49,5 +49,5 @@
       owner: mongodb 
       group: mongodb
       mode: '0755' 
-    when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir|bool == true
+    when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir
     become: true
