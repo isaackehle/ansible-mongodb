@@ -52,7 +52,7 @@ sharding:
 {% endif %}
 {% endif %}
 
-{% if configuring_replica_set is not defined or configuring_replica_set == false %}
+{% if configuring_replica_set is not defined or not configuring_replica_set %}
 security:
 {% if mongodb_security is defined %}
 {% if mongodb_security == 'keyfile' %}
@@ -75,7 +75,7 @@ net:
   bindIp: 0.0.0.0
   # bindIp: 127.0.0.1,{{ inventory_hostname }}
   ssl:
-{% if configuring_replica_set is not defined or configuring_replica_set == false %}
+{% if configuring_replica_set is not defined or not configuring_replica_set %}
     mode: requireSSL
 {% else %}
     mode: allowSSL

@@ -1,4 +1,6 @@
 ---
-  - name: Start mongodb service
-    become: true
-    service: name=mongod state=started
+- name: Start mongodb service
+  become: true
+  service:
+      name: mongod
+      state: started

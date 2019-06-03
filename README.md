@@ -40,8 +40,8 @@ replica_set:
 ```yaml
 cluster_role:           "shard"
 replica_set:
-  name:                 "my-shd0"             # name of the replica set for the shard server (prefix of fqdn)
-  group:                "my-shd0-servers"     # group name for all servers in the replica set
+  name:                 "db-data"             # name of the replica set for the shard server (prefix of fqdn)
+  group:                "db-data-servers"     # group name for all servers in the replica set
 ```
 
 ## Flags and Variables
@@ -49,15 +49,15 @@ replica_set:
 ```yaml
 vars:
   flags:
-    - install:            # Install mongo packages
-    - save-config:        # Basic initialization.  Stop Services, push service/config files, restart services
-    - reset-storage:      # Clear directories and logs
-    - init-replica-set:   # Initialize the replica set configuration
-    - add-replica-set:    # Add a replica set of a shard server to the cluster of shard servers
-    - db_create:          # Do initial db creation
-  new_replica_set:
-    name:                 # Name of the replica set to add to the config server
-    server:               # One of the members of the new replicate set to add
+    - install:              # Install mongo packages
+    - save-config:          # Basic initialization.  Stop Services, push service/config files, restart services
+    - reset-storage:        # Clear directories and logs
+    - init-replica-set:     # Initialize the replica set configuration
+    - add-shard-to-cluster: # Add a replica set of a shard server to the cluster of shard servers
+    - db_create:            # Do initial db creation
+  new_shard:
+    name:                   # Name of the replica set to add to the config server
+    server:                 # One of the members of the new replicate set to add
 ```
 
 ## Examples
@@ -73,7 +73,7 @@ vars:
     - { role: pgkehle.mongodb, flags: ['save-config'] }
     - { role: pgkehle.mongodb, flags: ['reset-storage'] }
     - { role: pgkehle.mongodb, flags: ['init-replica-set'] }
-    - { role: pgkehle.mongodb, flags: ['add-replica-set'] }
+    - { role: pgkehle.mongodb, flags: ['add-shard-to-cluster'] }
     - { role: pgkehle.mongodb, flags: ['db_create'] }
 ```
 
@@ -82,7 +82,7 @@ ansible-playbook playbooks/mongodb.yml -e "{'flags': ['install']}"
 ansible-playbook playbooks/mongodb.yml -e "{'flags': ['save-config']}"
 ansible-playbook playbooks/mongodb.yml -e "{'flags': ['reset-storage']}"
 ansible-playbook playbooks/mongodb.yml -e "{'flags': ['init-replica-set']}"
-ansible-playbook playbooks/mongodb.yml -e "{'flags': ['add-replica-set']}"
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['add-shard-to-cluster']}"
 ansible-playbook playbooks/mongodb.yml -e "{'flags': ['db_create']}"
 ```
 

@@ -1,0 +1,3 @@
+db.getSiblingDB("{{ auth_db }}").auth("{{ admin.username }}", "{{ admin.password }}" )
+
+sh.addShard( "{{ new_shard.name }}/{{ new_shard.server }}:{{ ports.shard }}")

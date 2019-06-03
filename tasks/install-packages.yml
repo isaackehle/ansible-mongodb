@@ -1,82 +1,78 @@
 ---
+- name: get release value
+  command: lsb_release -sc
+  register: lsb_release_out
 
-  - name: get release value
-    command: lsb_release -sc
-    register: lsb_release_out
+- name: Update APT Cache
+  become: true
+  apt:
+    update_cache: yes
 
-  - name: Update APT Cache
-    become: true
-    apt:
-      update_cache: yes
+- name: Update APT Cache
+  become: true
+  apt:
+    update_cache: yes
 
-  - name: Update APT Cache
-    become: true
-    apt:
-      update_cache: yes
+- name: Install required packages
+  apt:
+    name:
+      - build-essential
+      - gpg
+    state: present
+  become: true
 
-  - name: Install required packages
-    apt:
-      name: 
-        - build-essential
-        - gpg
-      state: present
-    become: true
+- name: Variables
+  set_fact:
+    lsb_release: "{{ lsb_release_out.stdout }}"
+    mongo_cfg: "{{ mongo_configs[mongo_version] }}"
 
-  - name: Variables
-    set_fact: 
-      lsb_release: '{{ lsb_release_out.stdout }}'
-      mongo_cfg: '{{ mongo_configs[mongo_version] }}'
+- name: Save List
+  template:
+    src: ../templates/mongod.list.j2
+    dest: /etc/apt/sources.list.d/mongod.list
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
+  become: true
 
-  - name: Save List
-    template: 
-      src: ../templates/mongod.list.j2 
-      dest: /etc/apt/sources.list.d/mongod.list 
-      owner: root 
-      group: root 
-      mode: "u=rw,g=r,o=r"
-    become: true
+- name: Add an apt key by id from a keyserver
+  apt_key:
+    url: https://www.mongodb.org/static/pgp/server-4.0.asc
+    state: present
+  become: true
 
-  - name: Add an apt key by id from a keyserver
-    apt_key:
-      url: https://www.mongodb.org/static/pgp/server-4.0.asc
-      state: present
-    become: true
+- name: Update APT Cache
+  become: true
+  apt:
+    update_cache: yes
 
-  - name: Update APT Cache
-    become: true
-    apt:
-      update_cache: yes
+- name: Remove old mongodb packages
+  become: true
+  apt:
+    name: mongodb
+    state: absent
 
-  - name: Remove old mongodb packages
-    become: true
-    apt:
-      name: mongodb
-      state: absent
+- name: Install the mongodb packages
+  become: true
+  apt:
+    name: mongodb-org
+    state: present
 
-  - name: Install the mongodb packages
-    become: true
-    apt:
-      name: mongodb-org
-      state: present
+- name: Autoremove unused packages
+  apt:
+    autoremove: yes
+  become: true
 
-  - name: Autoremove unused packages
-    apt:
-      autoremove: yes
-    become: true
+- name: Full Upgrade
+  become: true
+  apt:
+    upgrade: dist
 
-  - name: Full Upgrade
-    become: true
-#    raw: apt -y full-upgrade
-    apt:
-      upgrade: dist
+- name: Stop services
+  include_tasks: service-stop.yml
 
-  - name: Stop services
-    include_tasks: service-stop.yml
+- name: kill logs
+  include_tasks: kill-logs.yml
 
-  - name: kill logs
-    include_tasks: kill-logs.yml
-
-  - name: Start services
-    include_tasks: service-start.yml
-
-
+- name: Start services
+  include_tasks: service-start.yml
