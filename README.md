@@ -20,6 +20,12 @@ replica_set:
 
 Host Definitions typically contain the following:
 
+### Replica Set Only
+
+```yaml
+cluster_role:           "replicaSet"
+```
+
 ### Router Server
 
 ```yaml

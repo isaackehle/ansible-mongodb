@@ -4,25 +4,25 @@
 
 - name: Status of data directory
   stat:
-    path: "{{ mount_dir }}"
+    path: "{{ mount_base }}"
   register: stat_mnt
 
-- name: Delete srv directory
+- name: Delete storage_path directory
   file:
-    path: "{{ srv_dir }} "
+    path: "{{ storage_path }} "
     state: absent
   become: true
 
 - name: Delete mounted directory
   file:
-    path: "{{ data_dir }}"
+    path: "{{ mount_path }}"
     state: absent
   become: true
   when: stat_mnt.stat.isdir is defined and stat_mnt.stat.isdir
 
 - name: Create db dir, basic
   file:
-    path: "{{ data_dir }}"
+    path: "{{ mount_path }}"
     state: directory
     owner: mongodb
     group: mongodb
@@ -32,7 +32,7 @@
 
 - name: Create db dir, mounted
   file:
-    path: "{{ data_dir }}"
+    path: "{{ mount_path }}"
     state: directory
     owner: mongodb
     group: mongodb
@@ -42,8 +42,8 @@
 
 - name: Create link, if needed
   file:
-    src: "{{ data_dir }}"
-    dest: "{{ srv_dir }}"
+    src: "{{ mount_path }}"
+    dest: "{{ storage_path }}"
     state: link
     owner: mongodb
     group: mongodb

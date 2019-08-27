@@ -26,10 +26,10 @@ systemLog:
       journal:
         verbosity: 0
 
-{% if cluster_role == 'shard' or cluster_role == 'config' %}
+{% if cluster_role == 'shard' or cluster_role == 'config' or cluster_role == 'replicaSet' %}
 # Where and how to store data.
 storage:
-  dbPath: {{ srv_dir }}
+  dbPath: {{ storage_path }}
   journal:
     enabled: true
 {% endif %}
@@ -39,17 +39,19 @@ replication:
   replSetName: {{ replica_set.name }}
 {% endif %}
 
-{% if cluster_role is defined %}
-sharding:
 {% if cluster_role == 'shard' %}
+sharding:
   clusterRole: shardsvr
 {% endif %}
+
 {% if cluster_role == 'config' %}
+sharding:
   clusterRole: configsvr
 {% endif %}
+
 {% if cluster_role == 'router' and config_db %}
+sharding:
   configDB: {{ config_db }}
-{% endif %}
 {% endif %}
 
 {% if configuring_replica_set is not defined or not configuring_replica_set %}

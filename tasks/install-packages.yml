@@ -29,7 +29,7 @@
 - name: Save List
   template:
     src: ../templates/mongod.list.j2
-    dest: /etc/apt/sources.list.d/mongod.list
+    path: /etc/apt/sources.list.d/mongod.list
     owner: root
     group: root
     mode: "u=rw,g=r,o=r"
@@ -37,7 +37,7 @@
 
 - name: Add an apt key by id from a keyserver
   apt_key:
-    url: https://www.mongodb.org/static/pgp/server-4.0.asc
+    url: https://www.mongodb.org/static/pgp/server-4.2.asc
     state: present
   become: true
 
