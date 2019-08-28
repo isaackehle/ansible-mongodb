@@ -13,8 +13,6 @@ auth_db:                "admin"
 
 cert_path:
   csr:
-    remote:     ""
-    local:      ""
   key:
     remote:     ""
     local:      ""
