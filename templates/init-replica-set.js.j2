@@ -28,11 +28,11 @@ opt.members.push({_id: {{ loop.index0 }}, host: '{{ hostvars[ hn ].fqdn }}:{{ rs
 
 rs.initiate(opt);
 
-{% if admin.password | length > 0 %}
+{% if adminPass | length > 0 %}
 // Create the user administrator and cluster administrator
 db.getSiblingDB("{{ auth_db }}").createUser({
-    user: "{{ admin.username }}",
-    pwd: "{{ admin.password }}",
+    user: "{{ adminUser }}",
+    pwd: "{{ adminPass }}",
     roles: [
         { role: "root", db: "{{ auth_db }}"},
         { role: "dbAdminAnyDatabase", db: "{{ auth_db }}"},

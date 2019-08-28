@@ -74,6 +74,10 @@ vars:
     app_users:
       - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] }
 
+    # For when initializing the replica set
+    adminUser: ''
+    adminPass: ''
+
   roles:
     - { role: pgkehle.mongodb, flags: ['install'] }
     - { role: pgkehle.mongodb, flags: ['save-config'] }

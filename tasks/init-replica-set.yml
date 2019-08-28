@@ -4,31 +4,31 @@
 
 - name: Configuring the replica set
   set_fact:
-      configuring_replica_set: true
+    configuring_replica_set: true
 
 - name: Upload init-replica-set config file
   become: true
   template:
-      src: ../templates/mongod.conf.j2
-      dest: /etc/mongod.conf
-      owner: root
-      group: root
-      mode: "u=rw,g=r,o=r"
+    src: ../templates/mongod.conf.j2
+    dest: /etc/mongod.conf
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
 
 - name: Start the appropriate services
   include_tasks: service-start.yml
 
 - name: Delay
   pause:
-      seconds: 5
+    seconds: 5
 
-- name: Save the init-replica-set template
+- name: Save the init-replica-set.js template to remote tmp
   template:
-      src: ../templates/init-replica-set.js.j2
-      dest: /tmp/init-replica-set.js
+    src: ../templates/init-replica-set.js.j2
+    dest: /tmp/init-replica-set.js
   run_once: true
 
-- name: Run the init-replica-set script
+- name: Run the init-replica-set.js script
   shell: mongo --port {{ rs_port }} < /tmp/init-replica-set.js
   run_once: true
   register: res_rsi
@@ -36,32 +36,32 @@
   retries: 10
   delay: 5
 
-- name: Kill the init-replica-set script
+- name: Remove the init-replica-set.js script from remote tmp
   file:
-      dest: /tmp/init-replica-set.js
-      state: absent
+    dest: /tmp/init-replica-set.js
+    state: absent
 
 - name: Stop the daemon service
   become: true
   service:
-      name: mongod
-      state: stopped
+    name: mongod
+    state: stopped
 
 - name: No longer configuring the replica set
   set_fact:
-      configuring_replica_set: false
+    configuring_replica_set: false
 
 - name: Restore the mongodb configuration
   become: true
   template:
-      src: ../templates/mongod.conf.j2
-      dest: /etc/mongod.conf
-      owner: root
-      group: root
-      mode: "u=rw,g=r,o=r"
+    src: ../templates/mongod.conf.j2
+    dest: /etc/mongod.conf
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
 
 - name: Restart the daemon service
   become: true
   service:
-      name: mongod
-      state: started
+    name: mongod
+    state: started
