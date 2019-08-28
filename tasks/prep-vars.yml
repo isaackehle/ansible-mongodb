@@ -15,7 +15,7 @@
 
 - name: Set the rs_servers variable
   set_fact:
-    rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].server_fqdn }}:{{ ports.config }}']"
+    rs_servers: "{{ rs_servers }} + ['{{ hostvars[ item ].fqdn }}:{{ ports.config }}']"
   with_items: "{{ rs_server_group }}"
 
 - name: Set config_db variable

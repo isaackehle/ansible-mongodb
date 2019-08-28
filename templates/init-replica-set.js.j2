@@ -23,7 +23,7 @@ opt.configsvr = true;
 {% endif %}
 
 {% for hn in rs_server_group %}
-opt.members.push({_id: {{ loop.index0 }}, host: '{{ hostvars[ hn ].server_fqdn }}:{{ rs_port }}'});
+opt.members.push({_id: {{ loop.index0 }}, host: '{{ hostvars[ hn ].fqdn }}:{{ rs_port }}'});
 {% endfor %}
 
 rs.initiate(opt);
