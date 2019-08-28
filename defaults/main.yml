@@ -5,10 +5,6 @@ flags:
 
 mongo_version:          "4.2"
 
-admin:
-  user:                 "admin"
-  password:             ""
-
 auth_db:                "admin"
 
 cert_path:
