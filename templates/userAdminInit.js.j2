@@ -1,7 +1,7 @@
 // Create the user administrator and cluster administrator
 db.getSiblingDB("{{ auth_db }}").createUser({
-    user: "{{ admin.username }}",
-    pwd: "{{ admin.password }}",
+    user: "{{ adminUser }}",
+    pwd: "{{ adminPass }}",
     roles: [
         { role: "root", db: "{{ auth_db }}"},
         { role: "dbAdminAnyDatabase", db: "{{ auth_db }}"},

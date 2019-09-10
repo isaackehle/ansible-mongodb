@@ -20,6 +20,12 @@ replica_set:
 
 Host Definitions typically contain the following:
 
+### Replica Set Only
+
+```yaml
+cluster_role:           "replicaSet"
+```
+
 ### Router Server
 
 ```yaml
@@ -54,7 +60,7 @@ vars:
     - reset-storage:        # Clear directories and logs
     - init-replica-set:     # Initialize the replica set configuration
     - add-shard-to-cluster: # Add a replica set of a shard server to the cluster of shard servers
-    - db_create:            # Do initial db creation
+    - create_database:      # Do an initial database creation, with username and password
   new_shard:
     name:                   # Name of the replica set to add to the config server
     server:                 # One of the members of the new replicate set to add
@@ -65,8 +71,17 @@ vars:
 ```yaml
 - hosts: all
   vars:
-    app_users:
-      - { db_name: "", user: "", pwd: "", roles: ["readWrite", "userAdmin"] }
+    auth_db: ""
+    adminUser: ""
+    adminPass: ""
+    tgt_db: ""
+    userName: ""
+    userPass: ""
+    roles: ["readWrite", "userAdmin"]
+
+    # For when initializing the replica set
+    adminUser: ''
+    adminPass: ''
 
   roles:
     - { role: pgkehle.mongodb, flags: ['install'] }
@@ -74,7 +89,7 @@ vars:
     - { role: pgkehle.mongodb, flags: ['reset-storage'] }
     - { role: pgkehle.mongodb, flags: ['init-replica-set'] }
     - { role: pgkehle.mongodb, flags: ['add-shard-to-cluster'] }
-    - { role: pgkehle.mongodb, flags: ['db_create'] }
+    - { role: pgkehle.mongodb, flags: ['create_database'] }
 ```
 
 ```bash
@@ -83,7 +98,7 @@ ansible-playbook playbooks/mongodb.yml -e "{'flags': ['save-config']}"
 ansible-playbook playbooks/mongodb.yml -e "{'flags': ['reset-storage']}"
 ansible-playbook playbooks/mongodb.yml -e "{'flags': ['init-replica-set']}"
 ansible-playbook playbooks/mongodb.yml -e "{'flags': ['add-shard-to-cluster']}"
-ansible-playbook playbooks/mongodb.yml -e "{'flags': ['db_create']}"
+ansible-playbook playbooks/mongodb.yml -e "{'flags': ['create_database']}"
 ```
 
 ## License

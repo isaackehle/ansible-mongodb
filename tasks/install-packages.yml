@@ -3,10 +3,11 @@
   command: lsb_release -sc
   register: lsb_release_out
 
-- name: Update APT Cache
+- name: Add an apt key by id from a keyserver
+  apt_key:
+    url: https://www.mongodb.org/static/pgp/server-4.2.asc
+    state: present
   become: true
-  apt:
-    update_cache: yes
 
 - name: Update APT Cache
   become: true
@@ -35,20 +36,10 @@
     mode: "u=rw,g=r,o=r"
   become: true
 
-- name: Add an apt key by id from a keyserver
-  apt_key:
-    url: https://www.mongodb.org/static/pgp/server-4.0.asc
-    state: present
-  become: true
-
-- name: Update APT Cache
-  become: true
-  apt:
-    update_cache: yes
-
 - name: Remove old mongodb packages
   become: true
   apt:
+    update_cache: yes
     name: mongodb
     state: absent
 

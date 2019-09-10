@@ -3,18 +3,12 @@
 flags:
   - none
 
-mongo_version:          "4.0"
-
-admin:
-  user:                 "admin"
-  password:             ""
+mongo_version:          "4.2"
 
 auth_db:                "admin"
 
 cert_path:
   csr:
-    remote:     ""
-    local:      ""
   key:
     remote:     ""
     local:      ""

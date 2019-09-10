@@ -1,0 +1,19 @@
+var newDb = db.getSiblingDB("{{ tgt_db }}");
+
+db.getSiblingDB("{{ auth_db }}").auth("{{ adminUser }}", "{{ adminPass }}");
+
+// sh.enableSharding("{{ tgt_db }}");
+
+var _user = newDb.getUser("{{ userName }}");
+
+if (!_user) {
+  _user = newDb.createUser({
+    "user": "{{ userName }}",
+    "pwd": "{{ userPass }}",
+    "roles": []
+  });
+} else {
+  newDb.changeUserPassword("{{ userName }}", "{{ userPass }}");
+}
+
+newDb.grantRolesToUser("{{ userName }}", {{ roles | to_nice_json }}, { w: "majority", wtimeout: 4000 });

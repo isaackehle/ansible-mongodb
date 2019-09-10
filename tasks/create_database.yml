@@ -1,0 +1,21 @@
+---
+- name: Save the create_database script
+  template:
+    src: ../templates/create_database.js.j2
+    dest: /tmp/create_database.js
+
+- name: Run the create_database.js script
+  command: >
+    mongo
+    --host {{ fqdn }}
+    --port {{ rs_port }}
+    --tls
+    --tlsCertificateKeyFile {{ cert_path.chain.remote }}
+    --tlsCAFile {{ cert_path.intermediate.remote }}
+    < /tmp/create_database.js
+  register: result
+  become: yes
+
+- name: Remove the create_database script
+  file:
+    dest: /tmp/create_database.js

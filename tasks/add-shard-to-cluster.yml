@@ -8,7 +8,7 @@
 - name: Run the add-shard-to-cluster script
   shell: >
     mongo
-    --host {{ server_fqdn }}
+    --host {{ fqdn }}
     --port {{ rs_port }}
     --ssl
     --sslPEMKeyFile {{ cert_path.chain.remote }}
