@@ -1,0 +1,9 @@
+// Create the user administrator and cluster administrator
+db.createUser({
+  user: "spUser",
+  pwd: "{{ user_password }}",
+  roles: [
+    { role: "readWrite", db: "{{ user_auth_db }}" },
+    { role: "userAdmin", db: "{{ user_auth_db }}" }
+  ]
+});

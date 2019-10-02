@@ -1,24 +1,23 @@
 ---
+mount_base: /mnt/data
+mount_path: "{{ mount_base }}/mongodb"
+storage_path: /srv/mongodb
 
-mount_base:       /mnt/data
-mount_path:       "{{ mount_base }}/mongodb"
-storage_path:     /srv/mongodb
+log_path: "/var/log/mongodb"
+log_file: "{{ log_path }}/mongodb.log"
 
-log_path:         "/var/log/mongodb"
-log_file:         "{{ log_path }}/mongodb.log"
+keyfile_path: /srv/mongodb/mongodb-keyfile
 
-keyfile_path:     /srv/mongodb/mongodb-keyfile
-
-rs_servers:       []
-rs_server_group:  []
-config_db:        ""
+rs_servers: []
+rs_server_group: []
+config_db: ""
 
 ports:
-  standalone:     27017
-  replicaSet:     27017
-  router:         27017
-  shard:          27018
-  config:         27019
+  standalone: 27017
+  replicaSet: 27017
+  router: 27017
+  shard: 27018
+  config: 27019
 
 mongo_configs:
   "4.2":
@@ -33,7 +32,6 @@ mongo_configs:
   "3.4":
     ppa_pubkey: A15703C6
     keyfile_name: server-3.4.asc
-  "3.2":        
+  "3.2":
     ppa_pubkey: EA312927
     keyfile_name: server-3.2.asc
-
