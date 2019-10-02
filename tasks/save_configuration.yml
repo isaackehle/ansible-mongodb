@@ -1,6 +1,6 @@
 ---
 - name: Stop services
-  include_tasks: service-stop.yml
+  include_tasks: service_stop.yml
 
 - name: Remove all mongo config files
   become: true
@@ -42,4 +42,4 @@
     enabled: true
 
 - name: Start the appropriate services
-  include_tasks: service-start.yml
+  include_tasks: service_start.yml

@@ -1,6 +1,6 @@
 ---
 - name: kill logs
-  include_tasks: kill-logs.yml
+  include_tasks: kill_logs.yml
 
 - name: Status of data directory
   stat:

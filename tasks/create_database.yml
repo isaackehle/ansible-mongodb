@@ -1,7 +1,7 @@
 ---
 - name: Save the create_database script
   template:
-    src: ../templates/create_database.js.j2
+    src: templates/create_database.js.j2
     dest: /tmp/create_database.js
 
 - name: Run the create_database.js script
@@ -15,6 +15,7 @@
     < /tmp/create_database.js
   register: result
   become: yes
+  when: true
 
 - name: Remove the create_database script
   file:

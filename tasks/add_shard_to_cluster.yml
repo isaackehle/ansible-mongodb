@@ -1,11 +1,11 @@
 ---
-- name: Save the add-shard-to-cluster script
+- name: Save the add_shard_to_cluster script
   template:
-    src: ../templates/add-shard-to-cluster.js.j2
-    dest: /tmp/add-shard-to-cluster.js
+    src: templates/add_shard_to_cluster.js.j2
+    dest: /tmp/add_shard_to_cluster.js
   run_once: true
 
-- name: Run the add-shard-to-cluster script
+- name: Run the add_shard_to_cluster script
   shell: >
     mongo
     --host {{ fqdn }}
@@ -13,10 +13,11 @@
     --ssl
     --sslPEMKeyFile {{ cert_path.chain.remote }}
     --sslCAFile {{ cert_path.intermediate.remote }}
-    < /tmp/add-shard-to-cluster.js
+    < /tmp/add_shard_to_cluster.js
   run_once: true
   become: true
   register: result
   until: result.rc == 0
   retries: 5
   delay: 3
+  when: true

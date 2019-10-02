@@ -1,7 +1,8 @@
 ---
-- name: get release value
+- name: Get release value
   command: lsb_release -sc
   register: lsb_release_out
+  when: true
 
 - name: Add an apt key by id from a keyserver
   apt_key:
@@ -29,7 +30,7 @@
 
 - name: Save List
   template:
-    src: ../templates/mongod.list.j2
+    src: templates/mongod.list.j2
     dest: /etc/apt/sources.list.d/mongod.list
     owner: root
     group: root
@@ -60,10 +61,10 @@
     upgrade: dist
 
 - name: Stop services
-  include_tasks: service-stop.yml
+  include_tasks: service_stop.yml
 
 - name: kill logs
-  include_tasks: kill-logs.yml
+  include_tasks: kill_logs.yml
 
 - name: Start services
-  include_tasks: service-start.yml
+  include_tasks: service_start.yml

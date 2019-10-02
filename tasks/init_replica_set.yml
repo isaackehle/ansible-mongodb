@@ -1,44 +1,45 @@
 ---
 - name: Stop services
-  include_tasks: service-stop.yml
+  include_tasks: service_stop.yml
 
 - name: Configuring the replica set
   set_fact:
     configuring_replica_set: true
 
-- name: Upload init-replica-set config file
+- name: Upload init_replica_set config file
   become: true
   template:
-    src: ../templates/mongod.conf.j2
+    src: templates/mongod.conf.j2
     dest: /etc/mongod.conf
     owner: root
     group: root
     mode: "u=rw,g=r,o=r"
 
 - name: Start the appropriate services
-  include_tasks: service-start.yml
+  include_tasks: service_start.yml
 
 - name: Delay
   pause:
     seconds: 5
 
-- name: Save the init-replica-set.js template to remote tmp
+- name: Save the init_replica_set.js template to remote tmp
   template:
-    src: ../templates/init-replica-set.js.j2
-    dest: /tmp/init-replica-set.js
+    src: templates/init_replica_set.js.j2
+    dest: /tmp/init_replica_set.js
   run_once: true
 
-- name: Run the init-replica-set.js script
-  shell: mongo --port {{ rs_port }} < /tmp/init-replica-set.js
+- name: Run the init_replica_set.js script
+  shell: mongo --port {{ rs_port }} < /tmp/init_replica_set.js
   run_once: true
   register: res_rsi
   until: res_rsi.rc == 0
   retries: 10
   delay: 5
+  when: true
 
-- name: Remove the init-replica-set.js script from remote tmp
+- name: Remove the init_replica_set.js script from remote tmp
   file:
-    dest: /tmp/init-replica-set.js
+    dest: /tmp/init_replica_set.js
     state: absent
 
 - name: Stop the daemon service
@@ -54,7 +55,7 @@
 - name: Restore the mongodb configuration
   become: true
   template:
-    src: ../templates/mongod.conf.j2
+    src: templates/mongod.conf.j2
     dest: /etc/mongod.conf
     owner: root
     group: root
