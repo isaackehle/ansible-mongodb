@@ -142,5 +142,5 @@ Paul Kehle
   - [Secure MongoDB With x509](https://www.mongodb.com/blog/post/secure-mongodb-with-x-509-authentication)
 
 - Digital Ocean
-  - [Implement Replica Sets on ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-implement-replication-sets-in-mongodb-on-an-ubuntu-vps)
-  - [Create a Sharded Clister 12.04](https://www.digitalocean.com/community/tutorials/how-to-create-a-sharded-cluster-in-mongodb-using-an-ubuntu-12-04-vps)
+  - [Implement Replica Sets on Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-implement-replication-sets-in-mongodb-on-an-ubuntu-vps)
+  - [Create a Sharded Cluster 12.04](https://www.digitalocean.com/community/tutorials/how-to-create-a-sharded-cluster-in-mongodb-using-an-ubuntu-12-04-vps)
