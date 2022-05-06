@@ -1,13 +1,13 @@
 galaxy_info:
-  author: Paul Kehle <twitter.com/pgkehle>
+  author: Isaac Kehle <twitter.com/isaackehle>
   description: Configure the components of a MongoDB Cluster
-  company: pgkehle
+  company: isaackehle
   license: MIT
   min_ansible_version: 2.4
   platforms:
-  - name: Ubuntu
-    versions:
-    - xenial
+    - name: Ubuntu
+      versions:
+        - xenial
   galaxy_tags:
-  - system
+    - system
 dependencies: []

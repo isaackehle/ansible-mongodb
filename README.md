@@ -2,7 +2,7 @@
 
 Configure the components of a MongoDB Cluster
 
-Available on Ansible Galaxy: [pgkehle.mongodb](https://galaxy.ansible.com/pgkehle/mongodb)
+Available on Ansible Galaxy: [isaackehle.mongodb](https://galaxy.ansible.com/isaackehle/mongodb)
 
 ## Variables
 
@@ -101,12 +101,12 @@ vars:
     adminPass: ''
 
   roles:
-    - { role: pgkehle.mongodb, flags: ['install'] }
-    - { role: pgkehle.mongodb, flags: ['save_config'] }
-    - { role: pgkehle.mongodb, flags: ['reset_storage'] }
-    - { role: pgkehle.mongodb, flags: ['init_replica_set'] }
-    - { role: pgkehle.mongodb, flags: ['add_shard_to_cluster'] }
-    - { role: pgkehle.mongodb, flags: ['create_database'] }
+    - { role: isaackehle.mongodb, flags: ['install'] }
+    - { role: isaackehle.mongodb, flags: ['save_config'] }
+    - { role: isaackehle.mongodb, flags: ['reset_storage'] }
+    - { role: isaackehle.mongodb, flags: ['init_replica_set'] }
+    - { role: isaackehle.mongodb, flags: ['add_shard_to_cluster'] }
+    - { role: isaackehle.mongodb, flags: ['create_database'] }
 ```
 
 ## Linting
@@ -122,8 +122,8 @@ MIT
 
 ## Author Information
 
-Paul Kehle  
-@pgkehle ([twitter](https://twitter.com/pgkehle), [github](https://github.com/pgkehle), [linkedin](https://www.linkedin.com/in/pgkehle))
+Isaac Kehle
+@isaackehle ([twitter](https://twitter.com/isaackehle), [github](https://github.com/isaackehle), [linkedin](https://www.linkedin.com/in/isaackehle))
 
 ### References
 
