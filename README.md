@@ -2,7 +2,7 @@
 
 Configure the components of a MongoDB Cluster
 
-Available on Ansible Galaxy: [isaackehle.mongodb](https://galaxy.ansible.com/isaackehle/mongodb)
+Available on Ansible Galaxy: [isaackehle.mongodb](https://galaxy.ansible.com/isaackehle/ansible_mongodb)
 
 ## Variables
 
